@@ -10,6 +10,10 @@ public class Visualizer extends PApplet {
 
     public Minim minim;
     public AudioPlayer song;
+    public PFont arial;
+    public PFont tahoma;
+    public PFont verdana;
+    public PFont ocra;
 
     public void settings() 
     {
@@ -25,6 +29,10 @@ public class Visualizer extends PApplet {
 
     public void setup()
     {
+        arial = createFont("arial.ttf",10);
+        tahoma = createFont("tahoma.ttf",10);
+        verdana = createFont("verdana.ttf",10);
+        ocra = createFont("OCRAEXT.TTF",10);
     }
 
     public void draw()
