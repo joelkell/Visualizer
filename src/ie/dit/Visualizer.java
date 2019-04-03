@@ -13,6 +13,7 @@ public class Visualizer extends PApplet {
 
     public Minim minim;
     public AudioPlayer song;
+    public AudioMetaData meta;
     public String path = null;
     private boolean fileChosen;
     public PFont arial;
@@ -54,10 +55,14 @@ public class Visualizer extends PApplet {
         j.chooseFile();
         path = j.getPath();
         song = minim.loadFile(path);
+        meta = song.getMetaData();
         song.rewind();
         fileChosen = true;
     }
 
+    private String timeRemaining;
+    private String timeElapsed;
+    private String totalTime;
     public String time(int length)
     {
         int milliseconds = ( -song.position() + length); //Countdown
@@ -67,9 +72,6 @@ public class Visualizer extends PApplet {
         String strTime =  minutes + ": " + padded;
         return strTime;
     }
-    private String timeRemaining;
-    private String timeElapsed;
-    private String totalTime;
 
     public void draw()
     {
@@ -89,6 +91,9 @@ public class Visualizer extends PApplet {
             totalTime = time(song.position() + song.length());
             text("Time Elapsed: " + timeElapsed, width * 0.8f, height / 4);
             text("Time Remaining: " + timeRemaining, width * 0.8f, height / 5);
+            text("Title: " + meta.title(), 20, 40);
+            text("Artist: " + meta.author(), 20, 60); 
+            text("Album: " + meta.album(), 20, 80);
             text("Length: " + totalTime, 20, 100);
         }
     }
