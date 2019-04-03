@@ -1,3 +1,6 @@
+/**
+  * Main PApplet sketch file
+  */
 package ie.dit;
 
 import ddf.minim.AudioMetaData;
@@ -10,6 +13,8 @@ public class Visualizer extends PApplet {
 
     public Minim minim;
     public AudioPlayer song;
+    public String path = null;
+    private boolean fileChosen;
     public PFont arial;
     public PFont tahoma;
     public PFont verdana;
@@ -17,6 +22,7 @@ public class Visualizer extends PApplet {
 
     public void settings() 
     {
+        fileChosen = false;
         size(1228, 692);
         smooth(8);
         // fullScreen();
@@ -24,7 +30,7 @@ public class Visualizer extends PApplet {
         pixelDensity(displayDensity());
 
         minim = new Minim(this);
-        song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Starship Amazing\\Ruby Dagger\\01 - Funky Boy in Robo World.mp3");
+        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Starship Amazing\\Ruby Dagger\\01 - Funky Boy in Robo World.mp3");
     }
 
     public void setup()
@@ -33,6 +39,23 @@ public class Visualizer extends PApplet {
         tahoma = createFont("tahoma.ttf",10);
         verdana = createFont("verdana.ttf",10);
         ocra = createFont("OCRAEXT.TTF",10);
+    }
+
+    public void selectSong()
+    {
+        if(fileChosen == true)
+        {
+            if(song.isPlaying())
+            {
+                song.pause();
+            }
+        }
+        FileChooser j = new FileChooser();
+        j.chooseFile();
+        path = j.getPath();
+        song = minim.loadFile(path);
+        song.rewind();
+        fileChosen = true;
     }
 
     public String time(int length)
@@ -59,12 +82,15 @@ public class Visualizer extends PApplet {
         strokeWeight(1);
 
         fill(0);
-        timeRemaining = time(song.length());
-        timeElapsed = time(2 * song.position());
-        totalTime = time(song.position() + song.length());
-        text("Time Elapsed: " + timeElapsed, width * 0.8f, height / 4);
-        text("Time Remaining: " + timeRemaining, width * 0.8f, height / 5);
-        text("Length: " + totalTime, 20, 100);
+        if(fileChosen == true)
+        {
+            timeRemaining = time(song.length());
+            timeElapsed = time(2 * song.position());
+            totalTime = time(song.position() + song.length());
+            text("Time Elapsed: " + timeElapsed, width * 0.8f, height / 4);
+            text("Time Remaining: " + timeRemaining, width * 0.8f, height / 5);
+            text("Length: " + totalTime, 20, 100);
+        }
     }
 
     public void keyPressed()
@@ -82,6 +108,10 @@ public class Visualizer extends PApplet {
                     song.play();
                 }
             }
+        }
+        if (key =='p')
+        {
+            selectSong();
         }
     }
 }
