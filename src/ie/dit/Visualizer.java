@@ -34,12 +34,14 @@ public class Visualizer extends PApplet {
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Starship Amazing\\Ruby Dagger\\01 - Funky Boy in Robo World.mp3");
     }
 
+    PlayPause playButton;
     public void setup()
     {
         arial = createFont("arial.ttf",10);
         tahoma = createFont("tahoma.ttf",10);
         verdana = createFont("verdana.ttf",10);
         ocra = createFont("OCRAEXT.TTF",10);
+        playButton = new PlayPause(this, 300, height-150, 100);
     }
 
     public void selectSong()
@@ -83,6 +85,9 @@ public class Visualizer extends PApplet {
         rect(1,1,width-4,height-4);
         strokeWeight(1);
 
+        //UI Elements
+        playButton.render();
+
         fill(0);
         if(fileChosen == true)
         {
@@ -118,5 +123,40 @@ public class Visualizer extends PApplet {
         {
             selectSong();
         }
+    }
+
+    /**
+     * @param song the song to set
+     */
+    public void setSong(AudioPlayer song) {
+        this.song = song;
+    }
+
+    /**
+     * @return the path
+     */
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * @param path the path to set
+     */
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    /**
+     * @return the fileChosen
+     */
+    public boolean isFileChosen() {
+        return fileChosen;
+    }
+
+    /**
+     * @param fileChosen the fileChosen to set
+     */
+    public void setFileChosen(boolean fileChosen) {
+        this.fileChosen = fileChosen;
     }
 }
