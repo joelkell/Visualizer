@@ -36,6 +36,8 @@ public class Visualizer extends PApplet {
 
     PlayPause playButton;
     RewindButton rewind;
+    FastForward forward;
+    ChooseSongButton chooseSongButton;
     public void setup()
     {
         arial = createFont("arial.ttf",10);
@@ -44,6 +46,8 @@ public class Visualizer extends PApplet {
         ocra = createFont("OCRAEXT.TTF",10);
         playButton = new PlayPause(this, 300, height-150, 100);
         rewind = new RewindButton(this, 150, height-150, 100);
+        forward = new FastForward(this, 450, height-150, 100);
+        chooseSongButton = new ChooseSongButton(this, width/2, height/2, 140);
     }
 
     public void selectSong()
@@ -90,6 +94,8 @@ public class Visualizer extends PApplet {
         //UI Elements
         playButton.render();
         rewind.render();
+        forward.render();
+        chooseSongButton.render();
 
         fill(0);
         if(fileChosen == true)
