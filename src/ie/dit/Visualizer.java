@@ -66,4 +66,22 @@ public class Visualizer extends PApplet {
         text("Time Remaining: " + timeRemaining, width * 0.8f, height / 5);
         text("Length: " + totalTime, 20, 100);
     }
+
+    public void keyPressed()
+    {
+        if (key ==' ')
+        {
+            if(song != null)
+            {
+                if(song.isPlaying())
+                {
+                    song.pause();
+                }
+                else
+                {
+                    song.play();
+                }
+            }
+        }
+    }
 }
