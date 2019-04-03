@@ -35,13 +35,35 @@ public class Visualizer extends PApplet {
         ocra = createFont("OCRAEXT.TTF",10);
     }
 
+    public String time(int length)
+    {
+        int milliseconds = ( -song.position() + length); //Countdown
+        int minutes = milliseconds / 60000;
+        int seconds = (milliseconds / 1000) % 60;
+        String padded = String.format("%02d" , seconds);
+        String strTime =  minutes + ": " + padded;
+        return strTime;
+    }
+    private String timeRemaining;
+    private String timeElapsed;
+    private String totalTime;
+
     public void draw()
     {
         background(255);//white background
         //black border
         stroke(0);
         strokeWeight(4);
+        noFill();
         rect(1,1,width-4,height-4);
         strokeWeight(1);
+
+        fill(0);
+        timeRemaining = time(song.length());
+        timeElapsed = time(2 * song.position());
+        totalTime = time(song.position() + song.length());
+        text("Time Elapsed: " + timeElapsed, width * 0.8f, height / 4);
+        text("Time Remaining: " + timeRemaining, width * 0.8f, height / 5);
+        text("Length: " + totalTime, 20, 100);
     }
 }
