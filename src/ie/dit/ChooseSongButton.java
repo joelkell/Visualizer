@@ -32,4 +32,9 @@ public class ChooseSongButton extends Button
     public void update()
     {
     }
+
+    public void isClicked() 
+    {
+        clicked = true;
+    }
 }

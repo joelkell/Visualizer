@@ -42,4 +42,9 @@ public class RewindButton extends Button
     public void update()
     {
     }
+
+    public void isClicked() 
+    {
+        clicked = true;
+    }
 }
