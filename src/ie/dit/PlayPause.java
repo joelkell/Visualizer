@@ -76,8 +76,9 @@ public class PlayPause extends Button
         
     }
 
-    public void isClicked() 
+    public boolean isClicked() 
     {
         clicked = true;
+        return clicked;
     }
 }

@@ -31,10 +31,15 @@ public class ChooseSongButton extends Button
 
     public void update()
     {
+        if(isClicked())
+        {
+            visualizer.selectSong();
+        }
     }
 
-    public void isClicked() 
+    public boolean isClicked() 
     {
         clicked = true;
+        return clicked;
     }
 }

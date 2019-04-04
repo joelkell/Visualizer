@@ -43,10 +43,15 @@ public class FastForward extends Button
 
     public void update()
     {
+        if(isClicked())
+        {
+            
+        }
     }
 
-    public void isClicked() 
+    public boolean isClicked() 
     {
         clicked = true;
+        return clicked;
     }
 }

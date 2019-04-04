@@ -74,6 +74,38 @@ public class Visualizer extends PApplet {
         fileChosen = true;
     }
 
+    public void togglePlay()
+    {
+        if(song.isPlaying())
+        {
+            song.pause();
+        }
+        else
+        {
+            song.play();
+        }
+    }
+
+    public void increaseVolume()
+    {
+        volume++;
+        if(volume > 4)
+        {
+            volume = 4;
+        }
+        song.setGain(volume);
+    }
+
+    public void decreaseVolume()
+    {
+        volume--;
+        if(volume < -80)
+        {
+            volume = -80;
+        }
+        song.setGain(volume);
+    }
+
     private String timeRemaining;
     private String timeElapsed;
     private String totalTime;
@@ -129,47 +161,23 @@ public class Visualizer extends PApplet {
         {
             if (key ==' ')
             {
-                if(song.isPlaying())
-                {
-                    song.pause();
-                }
-                else
-                {
-                    song.play();
-                }
+                togglePlay();
             }
             if(key == 'w')
             {
-                volume++;
-                if(volume > 4)
-                {
-                    volume = 4;
-                }
-                song.setGain(volume);
-                System.out.println("vol: " + volume);
-                System.out.println("gain: " + song.getGain());
+                increaseVolume();
             }
 
             if(key == 'a')
             {
-                volume--;
-                if(volume < -80)
-                {
-                    volume = -80;
-                }
-                song.setGain(volume);
-                System.out.println("vol: " + volume);
-                System.out.println("gain: " + song.getGain());
+                decreaseVolume();
             }
             if (key == CODED && keyCode == LEFT) 
             {
-                // song.cue(song.position()-1000);//rewind
                 song.rewind();
-                //song.skip(-1000);
             }
             if (key == CODED && keyCode == RIGHT) 
             {
-                //song.cue(song.position()+1000);//fast forward
                 song.skip(1000);//fast forward
             } 
         }
