@@ -16,6 +16,7 @@ public class FileChooser extends JFrame {
 	{ 
 	} 
 
+    //selects file from somewhere on computer and stroees in path variable
 	public void chooseFile() 
 	{ 
         JFileChooser fileWindow = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());

@@ -1,11 +1,16 @@
+/**
+ * Button which allows user to rewind song being played to beginning
+ */
+
 package ie.dit;
 public class RewindButton extends Button
 {
-    public RewindButton(Visualizer visualizer, float x, float y, float size)
+    public RewindButton(Visualizer visualizer, float x, float y, float size)//constructor
     {
         super(visualizer, x, y, size);
     }
 
+    //draws button to screen
     public void render()
     {
         visualizer.pushMatrix();
@@ -39,14 +44,17 @@ public class RewindButton extends Button
         visualizer.popMatrix();
     }
 
+    //rewinds song to beginning if clicked
     public void update()
     {
         if(isClicked())
         {
             visualizer.song.rewind();
+            clicked = false;
         }
     }
 
+    //sets button to clicked
     public boolean isClicked() 
     {
         clicked = true;

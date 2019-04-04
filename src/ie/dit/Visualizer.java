@@ -24,7 +24,7 @@ public class Visualizer extends PApplet {
 
     public void settings() 
     {
-        fileChosen = false;
+        fileChosen = false;//no song chosen at launch
         size(1228, 692);
         smooth(8);
         // fullScreen();
@@ -44,7 +44,7 @@ public class Visualizer extends PApplet {
     RewindButton rewind;
     FastForward forward;
     ChooseSongButton chooseSongButton;
-    public void setup()
+    public void setup()//create objects and load fonts
     {
         arial = createFont("arial.ttf",10);
         tahoma = createFont("tahoma.ttf",10);
@@ -56,9 +56,10 @@ public class Visualizer extends PApplet {
         chooseSongButton = new ChooseSongButton(this, width/2, height/2, 140);
     }
 
+    //open JFileChooser and select song
     public void selectSong()
     {
-        if(fileChosen == true)
+        if(fileChosen == true)//if a song is selected and playing - pause it
         {
             if(song.isPlaying())
             {
@@ -67,16 +68,17 @@ public class Visualizer extends PApplet {
         }
         FileChooser chooseFile = new FileChooser();
         chooseFile.chooseFile();
-        path = chooseFile.getPath();
-        if(path != null)
+        path = chooseFile.getPath();//returns path of file selected
+        if(path != null)//if file was chosen
         {
-            song = minim.loadFile(path);
-            meta = song.getMetaData();
-            song.rewind();
+            song = minim.loadFile(path);//load song
+            meta = song.getMetaData();//get song meta data
+            song.rewind();//rewind song to start
             fileChosen = true;
         }
     }
 
+    //switch between playing and paused
     public void togglePlay()
     {
         if(song.isPlaying())
@@ -89,6 +91,7 @@ public class Visualizer extends PApplet {
         }
     }
 
+    //increase volume of song
     public void increaseVolume()
     {
         volume++;
@@ -99,6 +102,7 @@ public class Visualizer extends PApplet {
         song.setGain(volume);
     }
 
+    //decrease volume of song
     public void decreaseVolume()
     {
         volume--;
@@ -112,9 +116,9 @@ public class Visualizer extends PApplet {
     private String timeRemaining;
     private String timeElapsed;
     private String totalTime;
-    public String time(int length)
+    public String time(int length)//formats time related functions
     {
-        int milliseconds = ( -song.position() + length); //Countdown
+        int milliseconds = ( -song.position() + length);
         int minutes = milliseconds / 60000;
         int seconds = (milliseconds / 1000) % 60;
         String padded = String.format("%02d" , seconds);
@@ -141,9 +145,9 @@ public class Visualizer extends PApplet {
         fill(0);
         if(fileChosen == true)
         {
-            timeRemaining = time(song.length());
-            timeElapsed = time(2 * song.position());
-            totalTime = time(song.position() + song.length());
+            timeRemaining = time(song.length());//calculate remaining time
+            timeElapsed = time(2 * song.position());//calculate time passed
+            totalTime = time(song.position() + song.length());//calculate total song length
             text("Time Elapsed: " + timeElapsed, width * 0.6f, height / 4);
             text("Time Remaining: " + timeRemaining, width * 0.6f, height / 5);
             text("Title: " + meta.title(), 20, 40);
@@ -153,6 +157,7 @@ public class Visualizer extends PApplet {
         }
     }
 
+    //perform actions when keys are pressed
     public void keyPressed()
     {
         

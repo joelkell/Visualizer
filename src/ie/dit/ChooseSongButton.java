@@ -1,3 +1,7 @@
+/**
+ * Button which allows user to choose a song to play from anywhere on there computer
+ */
+
 package ie.dit;
 public class ChooseSongButton extends Button
 {
@@ -5,7 +9,7 @@ public class ChooseSongButton extends Button
     private float width;
     private float verticalGap;
     private float horizontalGap;
-    public ChooseSongButton(Visualizer visualizer, float x, float y, float size)
+    public ChooseSongButton(Visualizer visualizer, float x, float y, float size)//constructor
     {
         super(visualizer, x, y, size);
         length = size;
@@ -14,6 +18,7 @@ public class ChooseSongButton extends Button
         horizontalGap = 4;
     }
 
+    //draw button to screen
     public void render()
     {
         visualizer.colorMode(Visualizer.RGB);
@@ -29,14 +34,17 @@ public class ChooseSongButton extends Button
         visualizer.text("Choose Song", pos.x, pos.y,length,width);
     }
 
+    //select song if button is clicked
     public void update()
     {
         if(isClicked())
         {
             visualizer.selectSong();
+            clicked = false;
         }
     }
 
+    //sets button to clicked
     public boolean isClicked() 
     {
         clicked = true;

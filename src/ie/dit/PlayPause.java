@@ -1,15 +1,20 @@
+/**
+ * Button which toggles between playing or paused
+ */
+
 package ie.dit;
 public class PlayPause extends Button
 {
     private float verticalGap;
     private float horizontalGap;
-    public PlayPause(Visualizer visualizer, float x, float y, float size)
+    public PlayPause(Visualizer visualizer, float x, float y, float size)//constructor
     {
         super(visualizer, x, y, size);
         horizontalGap = size/5;
         verticalGap = size/6;
     }
 
+    //draw button to screen
     public void render()
     {
         visualizer.pushMatrix();
@@ -44,6 +49,7 @@ public class PlayPause extends Button
         visualizer.popMatrix();
     }
 
+    //draws pause button
     public void songPlaying()
     {
         visualizer.beginShape(Visualizer.QUADS);
@@ -60,6 +66,7 @@ public class PlayPause extends Button
         visualizer.endShape(Visualizer.CLOSE);
     }
 
+    //draws play button
     public void songPaused()
     {
         float x1 = Visualizer.map((float) Math.cos(Visualizer.TWO_PI / 3),0,1,0,size/2);
@@ -71,14 +78,17 @@ public class PlayPause extends Button
         visualizer.triangle(x1,y1,x2,y2,x3,y3);
     }
 
+    //toggles playing or paused when button is clicked
     public void update()
     {
         if(isClicked())
         {
             visualizer.togglePlay();
+            clicked = false;
         }
     }
 
+    //sets button to clicked
     public boolean isClicked() 
     {
         clicked = true;

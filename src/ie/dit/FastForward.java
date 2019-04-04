@@ -1,11 +1,16 @@
+/**
+ * Button which allows user to fast forward song being played
+ */
+
 package ie.dit;
 public class FastForward extends Button
 {
-    public FastForward(Visualizer visualizer, float x, float y, float size)
+    public FastForward(Visualizer visualizer, float x, float y, float size)//constructor
     {
         super(visualizer, x, y, size);
     }
 
+    //draw button to screen
     public void render()
     {
         visualizer.pushMatrix();
@@ -41,14 +46,17 @@ public class FastForward extends Button
         visualizer.popMatrix();
     }
 
+    //performs fast forward if button is clicked
     public void update()
     {
         if(isClicked())
         {
             visualizer.song.skip(1000);
+            clicked = false;
         }
     }
 
+    //sets button to clicked
     public boolean isClicked() 
     {
         clicked = true;
