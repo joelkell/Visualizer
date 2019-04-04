@@ -16,6 +16,7 @@ public class Visualizer extends PApplet {
     public AudioMetaData meta;
     public String path = null;
     private boolean fileChosen;
+    private float volume = 1;
     public PFont arial;
     public PFont tahoma;
     public PFont verdana;
@@ -32,6 +33,11 @@ public class Visualizer extends PApplet {
 
         minim = new Minim(this);
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Starship Amazing\\Ruby Dagger\\01 - Funky Boy in Robo World.mp3");
+        //song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Matthew Thiessen & The Earthquakes\\Wind Up Bird\\02 - Man of Stone.mp3");
+        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice Verses\\06 - Selling The News.mp3");
+        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice Verses\\08 - Dark Horses.mp3");
+        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\NATIVE TONGUE\\10 - TAKE MY FIRE.mp3");
+        //song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\John Mayer\\Where The Light Is_ John Mayer Live In Los Angeles\\08 - Who Did You Think I Was (Live at the Nokia Theatre, Los Angeles, CA - December 2007).mp3");
     }
 
     PlayPause playButton;
@@ -59,9 +65,9 @@ public class Visualizer extends PApplet {
                 song.pause();
             }
         }
-        FileChooser j = new FileChooser();
-        j.chooseFile();
-        path = j.getPath();
+        FileChooser chooseFile = new FileChooser();
+        chooseFile.chooseFile();
+        path = chooseFile.getPath();
         song = minim.loadFile(path);
         meta = song.getMetaData();
         song.rewind();
@@ -114,9 +120,14 @@ public class Visualizer extends PApplet {
 
     public void keyPressed()
     {
-        if (key ==' ')
+        
+        if (key =='p')
         {
-            if(song != null)
+            selectSong();
+        }
+        if(song != null)
+        {
+            if (key ==' ')
             {
                 if(song.isPlaying())
                 {
@@ -127,11 +138,31 @@ public class Visualizer extends PApplet {
                     song.play();
                 }
             }
+            if(key == 'w')
+            {
+                volume++;
+                if(volume > 4)
+                {
+                    volume = 4;
+                }
+                song.setGain(volume);
+                System.out.println("vol: " + volume);
+                System.out.println("gain: " + song.getGain());
+            }
+
+            if(key == 'a')
+            {
+                volume--;
+                if(volume < -80)
+                {
+                    volume = -80;
+                }
+                song.setGain(volume);
+                System.out.println("vol: " + volume);
+                System.out.println("gain: " + song.getGain());
+            }
         }
-        if (key =='p')
-        {
-            selectSong();
-        }
+
     }
 
     /**
