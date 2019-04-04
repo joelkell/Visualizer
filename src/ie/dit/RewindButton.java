@@ -41,6 +41,10 @@ public class RewindButton extends Button
 
     public void update()
     {
+        if(isClicked())
+        {
+            visualizer.song.rewind();
+        }
     }
 
     public boolean isClicked() 

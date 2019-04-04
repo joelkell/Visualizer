@@ -73,7 +73,10 @@ public class PlayPause extends Button
 
     public void update()
     {
-        
+        if(isClicked())
+        {
+            visualizer.togglePlay();
+        }
     }
 
     public boolean isClicked() 

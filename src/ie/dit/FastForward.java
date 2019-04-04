@@ -45,7 +45,7 @@ public class FastForward extends Button
     {
         if(isClicked())
         {
-            
+            visualizer.song.skip(1000);
         }
     }
 

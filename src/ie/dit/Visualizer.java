@@ -68,10 +68,13 @@ public class Visualizer extends PApplet {
         FileChooser chooseFile = new FileChooser();
         chooseFile.chooseFile();
         path = chooseFile.getPath();
-        song = minim.loadFile(path);
-        meta = song.getMetaData();
-        song.rewind();
-        fileChosen = true;
+        if(path != null)
+        {
+            song = minim.loadFile(path);
+            meta = song.getMetaData();
+            song.rewind();
+            fileChosen = true;
+        }
     }
 
     public void togglePlay()
