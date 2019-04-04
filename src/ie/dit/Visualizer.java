@@ -109,8 +109,8 @@ public class Visualizer extends PApplet {
             timeRemaining = time(song.length());
             timeElapsed = time(2 * song.position());
             totalTime = time(song.position() + song.length());
-            text("Time Elapsed: " + timeElapsed, width * 0.8f, height / 4);
-            text("Time Remaining: " + timeRemaining, width * 0.8f, height / 5);
+            text("Time Elapsed: " + timeElapsed, width * 0.6f, height / 4);
+            text("Time Remaining: " + timeRemaining, width * 0.6f, height / 5);
             text("Title: " + meta.title(), 20, 40);
             text("Artist: " + meta.author(), 20, 60); 
             text("Album: " + meta.album(), 20, 80);
@@ -161,6 +161,17 @@ public class Visualizer extends PApplet {
                 System.out.println("vol: " + volume);
                 System.out.println("gain: " + song.getGain());
             }
+            if (key == CODED && keyCode == LEFT) 
+            {
+                // song.cue(song.position()-1000);//rewind
+                song.rewind();
+                //song.skip(-1000);
+            }
+            if (key == CODED && keyCode == RIGHT) 
+            {
+                //song.cue(song.position()+1000);//fast forward
+                song.skip(1000);//fast forward
+            } 
         }
 
     }
