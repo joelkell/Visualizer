@@ -37,7 +37,7 @@ public class ChooseSongButton extends Button
     //select song if button is clicked
     public void update()
     {
-        if(isClicked())
+        if(clicked == true)
         {
             visualizer.selectSong();
             clicked = false;
@@ -45,9 +45,8 @@ public class ChooseSongButton extends Button
     }
 
     //sets button to clicked
-    public boolean isClicked() 
+    public void isClicked() 
     {
         clicked = true;
-        return clicked;
     }
 }

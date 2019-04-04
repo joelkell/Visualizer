@@ -49,17 +49,20 @@ public class FastForward extends Button
     //performs fast forward if button is clicked
     public void update()
     {
-        if(isClicked())
+        if(clicked == true)
         {
-            visualizer.song.skip(1000);
-            clicked = false;
+            if(visualizer.song!=null)
+            {
+                visualizer.song.skip(1000);
+                clicked = false;
+            }
+            
         }
     }
 
     //sets button to clicked
-    public boolean isClicked() 
+    public void isClicked() 
     {
         clicked = true;
-        return clicked;
     }
 }

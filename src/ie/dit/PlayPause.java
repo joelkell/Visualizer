@@ -81,17 +81,19 @@ public class PlayPause extends Button
     //toggles playing or paused when button is clicked
     public void update()
     {
-        if(isClicked())
+        if(clicked == true)
         {
-            visualizer.togglePlay();
-            clicked = false;
+            if(visualizer.song!=null)
+            {
+                visualizer.togglePlay();
+                clicked = false;
+            }
         }
     }
 
     //sets button to clicked
-    public boolean isClicked() 
+    public void isClicked() 
     {
         clicked = true;
-        return clicked;
     }
 }

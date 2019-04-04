@@ -15,5 +15,5 @@ public abstract class Button extends UIElement
 
     public abstract void update();
 
-    public abstract boolean isClicked();
+    public abstract void isClicked();
 }

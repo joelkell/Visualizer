@@ -3,6 +3,7 @@
   */
 package ie.dit;
 
+import java.util.ArrayList;
 import ddf.minim.AudioMetaData;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
@@ -21,6 +22,8 @@ public class Visualizer extends PApplet {
     public PFont tahoma;
     public PFont verdana;
     public PFont ocra;
+
+    public ArrayList<Button> buttons = new ArrayList<Button>(); 
 
     public void settings() 
     {
@@ -50,10 +53,14 @@ public class Visualizer extends PApplet {
         tahoma = createFont("tahoma.ttf",10);
         verdana = createFont("verdana.ttf",10);
         ocra = createFont("OCRAEXT.TTF",10);
-        playButton = new PlayPause(this, 300, height-150, 100);
-        rewind = new RewindButton(this, 150, height-150, 100);
-        forward = new FastForward(this, 450, height-150, 100);
-        chooseSongButton = new ChooseSongButton(this, width/2, height/2, 140);
+        buttons.add(new PlayPause(this, 300, height-150, 100));
+        buttons.add(new RewindButton(this, 150, height-150, 100));
+        buttons.add(new FastForward(this, 450, height-150, 100));
+        buttons.add(new ChooseSongButton(this, width/2, height/2, 140));
+        //playButton = new PlayPause(this, 300, height-150, 100);
+        // rewind = new RewindButton(this, 150, height-150, 100);
+        // forward = new FastForward(this, 450, height-150, 100);
+        // chooseSongButton = new ChooseSongButton(this, width/2, height/2, 140);
     }
 
     //open JFileChooser and select song
@@ -137,10 +144,16 @@ public class Visualizer extends PApplet {
         strokeWeight(1);
 
         //UI Elements
-        playButton.render();
-        rewind.render();
-        forward.render();
-        chooseSongButton.render();
+        // playButton.render();
+        // rewind.render();
+        // forward.render();
+        // chooseSongButton.render();
+        for(int i = buttons.size() - 1; i >= 0; i--)
+        {
+            Button b = buttons.get(i);
+            b.render();
+            b.update();
+        }
 
         fill(0);
         if(fileChosen == true)
@@ -190,6 +203,18 @@ public class Visualizer extends PApplet {
             } 
         }
 
+    }
+
+    public void mouseClicked()//Checks if button was clicked
+    {
+        for(int i = buttons.size() - 1; i >= 0; i--)
+        {
+            Button b = buttons.get(i);
+            if(dist(mouseX, mouseY, b.pos.x, b.pos.y) <= b.size)
+            {
+                b.isClicked();
+            }
+        }
     }
 
     /**
