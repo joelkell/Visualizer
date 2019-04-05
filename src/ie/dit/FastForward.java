@@ -8,6 +8,8 @@ public class FastForward extends Button
     public FastForward(Visualizer visualizer, float x, float y, float size)//constructor
     {
         super(visualizer, x, y, size);
+        length = size;
+        height = size;
     }
 
     //draw button to screen

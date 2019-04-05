@@ -10,6 +10,8 @@ public class PlayPause extends Button
     public PlayPause(Visualizer visualizer, float x, float y, float size)//constructor
     {
         super(visualizer, x, y, size);
+        length = size;
+        height = size;
         horizontalGap = size/5;
         verticalGap = size/6;
     }

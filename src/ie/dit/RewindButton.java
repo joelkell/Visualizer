@@ -8,6 +8,8 @@ public class RewindButton extends Button
     public RewindButton(Visualizer visualizer, float x, float y, float size)//constructor
     {
         super(visualizer, x, y, size);
+        length = size;
+        height = size;
     }
 
     //draws button to screen
