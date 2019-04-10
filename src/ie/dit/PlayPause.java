@@ -7,6 +7,7 @@ public class PlayPause extends Button
 {
     private float verticalGap;
     private float horizontalGap;
+    private float x1, y1, x2, y2;
     public PlayPause(Visualizer visualizer, float x, float y, float size)//constructor
     {
         super(visualizer, x, y, size);
@@ -14,6 +15,10 @@ public class PlayPause extends Button
         height = size;
         horizontalGap = size/5;
         verticalGap = size/6;
+        x1 = Visualizer.map((float) Math.cos(Visualizer.TWO_PI / 3),-1,0,0,size/2);
+        y1 = Visualizer.map((float) Math.sin(Visualizer.TWO_PI / 3),-1,0,0,size/2);
+        x2 = Visualizer.map((float) Math.cos(Visualizer.PI / 3),-1,0,0,size/2);
+        y2 = Visualizer.map((float) Math.sin(2 * Visualizer.TWO_PI / 3),-1,0,0,size/2);
     }
 
     //draw button to screen
@@ -28,6 +33,7 @@ public class PlayPause extends Button
         visualizer.strokeWeight(4);
 
         //outer circle
+        visualizer.ellipseMode(Visualizer.CORNER);
         visualizer.ellipse(0,0,size,size);
 
         visualizer.fill(0);
@@ -56,28 +62,24 @@ public class PlayPause extends Button
     {
         visualizer.beginShape(Visualizer.QUADS);
         //left rectangle
-        visualizer.vertex(0 - 1.5f * horizontalGap, 0 - 2 * verticalGap);
-        visualizer.vertex(0 - 1.5f * horizontalGap, 0 + 2 * verticalGap);
-        visualizer.vertex(0 - 0.5f * horizontalGap, 0 + 2 * verticalGap);
-        visualizer.vertex(0 - 0.5f * horizontalGap, 0 - 2 * verticalGap);
+        visualizer.vertex(x1, y1);
+        visualizer.vertex(x1, y2);
+        visualizer.vertex(x1 + horizontalGap, y2);
+        visualizer.vertex(x1 + horizontalGap, y1);
         //right rectangle
-        visualizer.vertex(0 + 1.5f * horizontalGap, 0 - 2 * verticalGap);
-        visualizer.vertex(0 + 1.5f * horizontalGap, 0 + 2 * verticalGap);
-        visualizer.vertex(0 + 0.5f * horizontalGap, 0 + 2 * verticalGap);
-        visualizer.vertex(0 + 0.5f * horizontalGap, 0 - 2 * verticalGap);
+        visualizer.vertex(x2, y1);
+        visualizer.vertex(x2, y2);
+        visualizer.vertex(x2 - horizontalGap, y2);
+        visualizer.vertex(x2 - horizontalGap, y1);
         visualizer.endShape(Visualizer.CLOSE);
     }
 
     //draws play button
     public void songPaused()
     {
-        float x1 = Visualizer.map((float) Math.cos(Visualizer.TWO_PI / 3),0,1,0,size/2);
-        float y1 = Visualizer.map((float) Math.sin(Visualizer.TWO_PI / 3),0,1,0,size/2);
-        float x2 = Visualizer.map((float) Math.cos(2 * Visualizer.TWO_PI / 3),0,1,0,size/2);
-        float y2 = Visualizer.map((float) Math.sin(2 * Visualizer.TWO_PI / 3),0,1,0,size/2);
-        float x3 = size / 2;
-        float y3 = 0;
-        visualizer.triangle(x1,y1,x2,y2,x3,y3);
+        float x3 = size;
+        float y3 = size/2;
+        visualizer.triangle(x1,y1,x1,y2,x3,y3);
     }
 
     //toggles playing or paused when button is clicked

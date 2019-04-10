@@ -210,7 +210,8 @@ public class Visualizer extends PApplet {
         for(int i = buttons.size() - 1; i >= 0; i--)
         {
             Button b = buttons.get(i);
-            if(dist(mouseX, mouseY, b.pos.x, b.pos.y) <= b.size)
+            //if(dist(mouseX, 0, b.pos.x, 0) <= b.length && dist(0, mouseY,  0, b.pos.y) <= b.height)
+            if(mouseX >= b.pos.x && mouseX <= b.pos.x + b.length && mouseY >= b.pos.y && mouseY <= b.pos.y + b.height )
             {
                 b.isClicked();
             }

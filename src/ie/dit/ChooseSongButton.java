@@ -23,13 +23,13 @@ public class ChooseSongButton extends Button
         visualizer.fill(255,255,255);
         visualizer.stroke(0);
         visualizer.strokeWeight(4);
-        visualizer.rect(pos.x - horizontalGap, pos.y - verticalGap,length,height);
+        visualizer.rect(pos.x, pos.y,length,height, 5);
         visualizer.textAlign(Visualizer.LEFT, Visualizer.TOP);
         visualizer.fill(0);
         visualizer.noStroke();
         visualizer.textFont(visualizer.ocra);
         visualizer.textSize(20);
-        visualizer.text("Choose Song", pos.x, pos.y,length,height);
+        visualizer.text("Choose Song", pos.x + horizontalGap, pos.y + verticalGap,length,height);
     }
 
     //select song if button is clicked
