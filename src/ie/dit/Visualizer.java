@@ -36,7 +36,9 @@ public class Visualizer extends PApplet {
 
         minim = new Minim(this);
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Starship Amazing\\Ruby Dagger\\01 - Funky Boy in Robo World.mp3");
-        //song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Matthew Thiessen & The Earthquakes\\Wind Up Bird\\02 - Man of Stone.mp3");
+        song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Matthew Thiessen & The Earthquakes\\Wind Up Bird\\02 - Man of Stone.mp3");
+        meta = song.getMetaData();
+        fileChosen = true;
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice Verses\\06 - Selling The News.mp3");
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice Verses\\08 - Dark Horses.mp3");
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\NATIVE TONGUE\\10 - TAKE MY FIRE.mp3");
@@ -53,14 +55,10 @@ public class Visualizer extends PApplet {
         tahoma = createFont("tahoma.ttf",10);
         verdana = createFont("verdana.ttf",10);
         ocra = createFont("OCRAEXT.TTF",10);
-        buttons.add(new PlayPause(this, 300, height-150, 100));
-        buttons.add(new RewindButton(this, 150, height-150, 100));
-        buttons.add(new FastForward(this, 450, height-150, 100));
-        buttons.add(new ChooseSongButton(this, width/2, height/2, 140));
-        //playButton = new PlayPause(this, 300, height-150, 100);
-        // rewind = new RewindButton(this, 150, height-150, 100);
-        // forward = new FastForward(this, 450, height-150, 100);
-        // chooseSongButton = new ChooseSongButton(this, width/2, height/2, 140);
+        buttons.add(new PlayPause(this, 100, height-80, 60));
+        buttons.add(new RewindButton(this, 20, height-80, 60));
+        buttons.add(new FastForward(this, 180, height-80, 60));
+        buttons.add(new ChooseSongButton(this, width - 160, 20, 140));
     }
 
     //open JFileChooser and select song
@@ -143,11 +141,7 @@ public class Visualizer extends PApplet {
         rect(1,1,width-4,height-4);
         strokeWeight(1);
 
-        //UI Elements
-        // playButton.render();
-        // rewind.render();
-        // forward.render();
-        // chooseSongButton.render();
+        //display buttons
         for(int i = buttons.size() - 1; i >= 0; i--)
         {
             Button b = buttons.get(i);
@@ -163,10 +157,10 @@ public class Visualizer extends PApplet {
             totalTime = time(song.position() + song.length());//calculate total song length
             text("Time Elapsed: " + timeElapsed, width * 0.6f, height / 4);
             text("Time Remaining: " + timeRemaining, width * 0.6f, height / 5);
-            text("Title: " + meta.title(), 20, 40);
-            text("Artist: " + meta.author(), 20, 60); 
-            text("Album: " + meta.album(), 20, 80);
-            text("Length: " + totalTime, 20, 100);
+            text("Title: " + meta.title(), 20, 20);
+            text("Artist: " + meta.author(), 20, 40); 
+            text("Album: " + meta.album(), 20, 60);
+            text("Length: " + totalTime, 20, 80);
         }
     }
 
