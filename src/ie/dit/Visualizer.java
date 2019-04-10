@@ -36,9 +36,9 @@ public class Visualizer extends PApplet {
 
         minim = new Minim(this);
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Starship Amazing\\Ruby Dagger\\01 - Funky Boy in Robo World.mp3");
-        song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Matthew Thiessen & The Earthquakes\\Wind Up Bird\\02 - Man of Stone.mp3");
-        meta = song.getMetaData();
-        fileChosen = true;
+        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Matthew Thiessen & The Earthquakes\\Wind Up Bird\\02 - Man of Stone.mp3");
+        // meta = song.getMetaData();
+        // fileChosen = true;
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice Verses\\06 - Selling The News.mp3");
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice Verses\\08 - Dark Horses.mp3");
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\NATIVE TONGUE\\10 - TAKE MY FIRE.mp3");
@@ -49,6 +49,7 @@ public class Visualizer extends PApplet {
     RewindButton rewind;
     FastForward forward;
     ChooseSongButton chooseSongButton;
+    VolumeSlider slider;
     public void setup()//create objects and load fonts
     {
         arial = createFont("arial.ttf",10);
@@ -59,6 +60,7 @@ public class Visualizer extends PApplet {
         buttons.add(new RewindButton(this, 20, height-80, 60));
         buttons.add(new FastForward(this, 180, height-80, 60));
         buttons.add(new ChooseSongButton(this, width - 160, 20, 140));
+        buttons.add(new VolumeSlider(this, width - 80, 100, width - 80, 370, 20));
     }
 
     //open JFileChooser and select song
@@ -74,11 +76,12 @@ public class Visualizer extends PApplet {
         FileChooser chooseFile = new FileChooser();
         chooseFile.chooseFile();
         path = chooseFile.getPath();//returns path of file selected
-        if(path != null)//if file was chosen
+        if(path != null)//if file was  chosen
         {
             song = minim.loadFile(path);//load song
             meta = song.getMetaData();//get song meta data
             song.rewind();//rewind song to start
+            song.setGain(volume);
             fileChosen = true;
         }
     }
@@ -104,7 +107,10 @@ public class Visualizer extends PApplet {
         {
             volume = 4;
         }
-        song.setGain(volume);
+        if(song != null)
+        {
+            song.setGain(volume);
+        }
     }
 
     //decrease volume of song
@@ -115,7 +121,10 @@ public class Visualizer extends PApplet {
         {
             volume = -80;
         }
-        song.setGain(volume);
+        if(song != null)
+        {
+            song.setGain(volume);
+        }
     }
 
     private String timeRemaining;
@@ -149,18 +158,28 @@ public class Visualizer extends PApplet {
             b.update();
         }
 
+        //check sliders
+        mousePress();
+
         fill(0);
         if(fileChosen == true)
         {
             timeRemaining = time(song.length());//calculate remaining time
             timeElapsed = time(2 * song.position());//calculate time passed
             totalTime = time(song.position() + song.length());//calculate total song length
-            text("Time Elapsed: " + timeElapsed, width * 0.6f, height / 4);
-            text("Time Remaining: " + timeRemaining, width * 0.6f, height / 5);
+            text("Time Elapsed: " + timeElapsed, width - 300, height - 60);
+            text("Time Remaining: " + timeRemaining, width -300, height -40);
             text("Title: " + meta.title(), 20, 20);
             text("Artist: " + meta.author(), 20, 40); 
             text("Album: " + meta.album(), 20, 60);
             text("Length: " + totalTime, 20, 80);
+        }
+        else
+        {
+            text("Title: ", 20, 20);
+            text("Artist: ", 20, 40); 
+            text("Album: ", 20, 60);
+            text("Length: ", 20, 80); 
         }
     }
 
@@ -172,26 +191,27 @@ public class Visualizer extends PApplet {
         {
             selectSong();
         }
+        if(key == CODED && keyCode == UP)// up arrow
+        {
+            increaseVolume();
+        }
+
+        if(key == CODED && keyCode == DOWN)// down arrow
+        {
+            decreaseVolume();
+        }
+
         if(song != null)
         {
-            if (key ==' ')
+            if (key ==' ')//space
             {
                 togglePlay();
             }
-            if(key == 'w')
+            if (key == CODED && keyCode == LEFT)//left arrow
             {
-                increaseVolume();
+                song.rewind();// rewind to start of song
             }
-
-            if(key == 'a')
-            {
-                decreaseVolume();
-            }
-            if (key == CODED && keyCode == LEFT) 
-            {
-                song.rewind();
-            }
-            if (key == CODED && keyCode == RIGHT) 
+            if (key == CODED && keyCode == RIGHT)//right arrow 
             {
                 song.skip(1000);//fast forward
             } 
@@ -204,10 +224,25 @@ public class Visualizer extends PApplet {
         for(int i = buttons.size() - 1; i >= 0; i--)
         {
             Button b = buttons.get(i);
-            //if(dist(mouseX, 0, b.pos.x, 0) <= b.length && dist(0, mouseY,  0, b.pos.y) <= b.height)
             if(mouseX >= b.pos.x && mouseX <= b.pos.x + b.length && mouseY >= b.pos.y && mouseY <= b.pos.y + b.height )
             {
                 b.isClicked();
+            }
+        }
+    }
+
+    public void mousePress()//Checks if sliders being moved
+    {
+        for(int i = buttons.size() - 1; i >= 0; i--)
+        {
+            Button b = buttons.get(i);
+            if(b instanceof Slider && mousePressed)
+            {
+                Slider s = (Slider) b;
+                if(mouseX >= s.pos.x - s.size/2 && mouseX <= s.pos.x + s.size/2 && mouseY >= s.pos.y && mouseY <= s.pos2.y)
+                {
+                    b.isClicked();
+                }
             }
         }
     }
@@ -231,6 +266,20 @@ public class Visualizer extends PApplet {
      */
     public void setPath(String path) {
         this.path = path;
+    }
+
+        /**
+     * @return the volume
+     */
+    public float getVolume() {
+        return volume;
+    }
+
+    /**
+     * @param volume the volume to set
+     */
+    public void setVolume(float volume) {
+        this.volume = volume;
     }
 
     /**

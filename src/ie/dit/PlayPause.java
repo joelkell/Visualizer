@@ -5,7 +5,6 @@
 package ie.dit;
 public class PlayPause extends Button
 {
-    private float verticalGap;
     private float horizontalGap;
     private float x1, y1, x2, y2;
     public PlayPause(Visualizer visualizer, float x, float y, float size)//constructor
@@ -14,7 +13,6 @@ public class PlayPause extends Button
         length = size;
         height = size;
         horizontalGap = size/5;
-        verticalGap = size/6;
         x1 = Visualizer.map((float) Math.cos(Visualizer.TWO_PI / 3),-1,0,0,size/2);
         y1 = Visualizer.map((float) Math.sin(Visualizer.TWO_PI / 3),-1,0,0,size/2);
         x2 = Visualizer.map((float) Math.cos(Visualizer.PI / 3),-1,0,0,size/2);
