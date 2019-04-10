@@ -37,30 +37,30 @@ public class Visualizer extends PApplet {
         minim = new Minim(this);
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Starship Amazing\\Ruby Dagger\\01 - Funky Boy in Robo World.mp3");
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Matthew Thiessen & The Earthquakes\\Wind Up Bird\\02 - Man of Stone.mp3");
-        // meta = song.getMetaData();
-        // fileChosen = true;
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice Verses\\06 - Selling The News.mp3");
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice Verses\\08 - Dark Horses.mp3");
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\NATIVE TONGUE\\10 - TAKE MY FIRE.mp3");
         //song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\John Mayer\\Where The Light Is_ John Mayer Live In Los Angeles\\08 - Who Did You Think I Was (Live at the Nokia Theatre, Los Angeles, CA - December 2007).mp3");
+        song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Kings Kaleidoscope\\Zeal\\07 - Aimless Knight.mp3");
+        meta = song.getMetaData();
+        fileChosen = true;
     }
 
-    PlayPause playButton;
-    RewindButton rewind;
-    FastForward forward;
-    ChooseSongButton chooseSongButton;
-    VolumeSlider slider;
+    VolumeSlider vs;
     public void setup()//create objects and load fonts
     {
         arial = createFont("arial.ttf",10);
         tahoma = createFont("tahoma.ttf",10);
         verdana = createFont("verdana.ttf",10);
         ocra = createFont("OCRAEXT.TTF",10);
-        buttons.add(new PlayPause(this, 100, height-80, 60));
-        buttons.add(new RewindButton(this, 20, height-80, 60));
-        buttons.add(new FastForward(this, 180, height-80, 60));
-        buttons.add(new ChooseSongButton(this, width - 160, 20, 140));
-        buttons.add(new VolumeSlider(this, width - 80, 100, width - 80, 370, 20));
+
+        buttons.add(new PlayPause(this, 100, height-80, 60));// play/pause button
+        buttons.add(new RewindButton(this, 20, height-80, 60));// rewind button
+        buttons.add(new FastForward(this, 180, height-80, 60));// fast forward button
+        buttons.add(new ChooseSongButton(this, width - 160, 20, 140));// choose song button
+        vs = new VolumeSlider(this, width - 80, 100, width - 80, 370, 20);// volume slider
+        buttons.add(vs);
+        buttons.add(new TimeSlider(this, 260, height - 50, width - 100, height - 50, 20));// time slider
     }
 
     //open JFileChooser and select song
@@ -159,7 +159,7 @@ public class Visualizer extends PApplet {
         }
 
         //check sliders
-        mousePress();
+        volumePress();
 
         fill(0);
         if(fileChosen == true)
@@ -167,8 +167,9 @@ public class Visualizer extends PApplet {
             timeRemaining = time(song.length());//calculate remaining time
             timeElapsed = time(2 * song.position());//calculate time passed
             totalTime = time(song.position() + song.length());//calculate total song length
-            text("Time Elapsed: " + timeElapsed, width - 300, height - 60);
-            text("Time Remaining: " + timeRemaining, width -300, height -40);
+            text("Time Elapsed: " + timeElapsed, width/2, height/2);
+            textAlign(LEFT,CENTER);
+            text(timeRemaining, width-90, height - 50);
             text("Title: " + meta.title(), 20, 20);
             text("Artist: " + meta.author(), 20, 40); 
             text("Album: " + meta.album(), 20, 60);
@@ -231,19 +232,11 @@ public class Visualizer extends PApplet {
         }
     }
 
-    public void mousePress()//Checks if sliders being moved
+    public void volumePress()//Checks if Volume slider is being moved
     {
-        for(int i = buttons.size() - 1; i >= 0; i--)
+        if((mouseX >= vs.pos.x - vs.size/2 && mouseX <= vs.pos.x + vs.size/2 && mouseY >= vs.pos.y && mouseY <= vs.pos2.y) && mousePressed)
         {
-            Button b = buttons.get(i);
-            if(b instanceof Slider && mousePressed)
-            {
-                Slider s = (Slider) b;
-                if(mouseX >= s.pos.x - s.size/2 && mouseX <= s.pos.x + s.size/2 && mouseY >= s.pos.y && mouseY <= s.pos2.y)
-                {
-                    b.isClicked();
-                }
-            }
+            vs.isClicked();
         }
     }
 
