@@ -35,6 +35,7 @@ public class Visualizer extends PApplet {
         pixelDensity(displayDensity());
 
         minim = new Minim(this);
+        volume = 4;//set volume to 100% initially
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Starship Amazing\\Ruby Dagger\\01 - Funky Boy in Robo World.mp3");
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Matthew Thiessen & The Earthquakes\\Wind Up Bird\\02 - Man of Stone.mp3");
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice Verses\\06 - Selling The News.mp3");
@@ -60,7 +61,7 @@ public class Visualizer extends PApplet {
         buttons.add(new ChooseSongButton(this, width - 160, 20, 140));// choose song button
         vs = new VolumeSlider(this, width - 80, 100, width - 80, 370, 20);// volume slider
         buttons.add(vs);
-        buttons.add(new TimeSlider(this, 260, height - 50, width - 100, height - 50, 20));// time slider
+        buttons.add(new TimeSlider(this, 360, height - 50, width - 100, height - 50, 20));// time slider
     }
 
     //open JFileChooser and select song
@@ -167,8 +168,8 @@ public class Visualizer extends PApplet {
             timeRemaining = time(song.length());//calculate remaining time
             timeElapsed = time(2 * song.position());//calculate time passed
             totalTime = time(song.position() + song.length());//calculate total song length
-            text("Time Elapsed: " + timeElapsed, width/2, height/2);
             textAlign(LEFT,CENTER);
+            text(timeElapsed, 260, height - 50);
             text(timeRemaining, width-90, height - 50);
             text("Title: " + meta.title(), 20, 20);
             text("Artist: " + meta.author(), 20, 40); 
