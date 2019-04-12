@@ -3,12 +3,25 @@
   */
 package ie.dit;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
+import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
+
 import ddf.minim.AudioMetaData;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PFont;
+import processing.core.PImage;
 
 public class Visualizer extends PApplet {
 
@@ -22,12 +35,13 @@ public class Visualizer extends PApplet {
     public PFont tahoma;
     public PFont verdana;
     public PFont ocra;
+    PImage image;
+    BufferedImage img;
 
-    public ArrayList<Button> buttons = new ArrayList<Button>(); 
+    public ArrayList<Button> buttons = new ArrayList<Button>();
 
-    public void settings() 
-    {
-        fileChosen = false;//no song chosen at launch
+    public void settings() {
+        fileChosen = false;// no song chosen at launch
         size(1228, 692);
         smooth(8);
         // fullScreen();
@@ -35,16 +49,57 @@ public class Visualizer extends PApplet {
         pixelDensity(displayDensity());
 
         minim = new Minim(this);
-        volume = 4;//set volume to 100% initially
-        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Starship Amazing\\Ruby Dagger\\01 - Funky Boy in Robo World.mp3");
-        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Matthew Thiessen & The Earthquakes\\Wind Up Bird\\02 - Man of Stone.mp3");
-        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice Verses\\06 - Selling The News.mp3");
-        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice Verses\\08 - Dark Horses.mp3");
-        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\NATIVE TONGUE\\10 - TAKE MY FIRE.mp3");
-        //song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\John Mayer\\Where The Light Is_ John Mayer Live In Los Angeles\\08 - Who Did You Think I Was (Live at the Nokia Theatre, Los Angeles, CA - December 2007).mp3");
+        volume = 4;// set volume to 100% initially
+        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Starship
+        // Amazing\\Ruby Dagger\\01 - Funky Boy in Robo World.mp3");
+        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Matthew Thiessen &
+        // The Earthquakes\\Wind Up Bird\\02 - Man of Stone.mp3");
+        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice
+        // Verses\\06 - Selling The News.mp3");
+        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice
+        // Verses\\08 - Dark Horses.mp3");
+        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\NATIVE
+        // TONGUE\\10 - TAKE MY FIRE.mp3");
+        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\John Mayer\\Where
+        // The Light Is_ John Mayer Live In Los Angeles\\08 - Who Did You Think I Was
+        // (Live at the Nokia Theatre, Los Angeles, CA - December 2007).mp3");
         song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Kings Kaleidoscope\\Zeal\\07 - Aimless Knight.mp3");
         meta = song.getMetaData();
         fileChosen = true;
+
+        Mp3File mp3file = null;
+        try 
+        {
+            mp3file = new Mp3File("D:\\Users\\joelk\\Music\\All Music\\Kings Kaleidoscope\\Zeal\\07 - Aimless Knight.mp3");
+        } 
+        catch (UnsupportedTagException | InvalidDataException | IOException e) 
+        {
+            e.printStackTrace();
+        }
+
+        if (mp3file.hasId3v2Tag()) 
+        {
+            ID3v2 id3v2Tag = mp3file.getId3v2Tag();
+            byte[] imageData = id3v2Tag.getAlbumImage();
+            try 
+            {
+                img = ImageIO.read(new ByteArrayInputStream(imageData));
+            } catch (IOException e) 
+            {
+                e.printStackTrace();
+            }
+        }
+        
+        try 
+        {
+            image = new PImage(img.getWidth(),img.getHeight(),PConstants.ARGB);
+            img.getRGB(0, 0, image.width, image.height, image.pixels, 0, image.width);
+            image.updatePixels();
+        }
+          catch(Exception e) {
+            System.err.println("Can't create image from buffer");
+            e.printStackTrace();
+        }
     }
 
     VolumeSlider vs;
@@ -158,6 +213,8 @@ public class Visualizer extends PApplet {
             b.render();
             b.update();
         }
+
+        image(image, width/2 - 400, height/2 -400, 400,400);
 
         //check sliders
         volumePress();
