@@ -3,23 +3,12 @@
   */
 package ie.dit;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-
-import com.mpatric.mp3agic.ID3v2;
-import com.mpatric.mp3agic.InvalidDataException;
-import com.mpatric.mp3agic.Mp3File;
-import com.mpatric.mp3agic.UnsupportedTagException;
 
 import ddf.minim.AudioMetaData;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PFont;
 import processing.core.PImage;
 
@@ -35,8 +24,8 @@ public class Visualizer extends PApplet {
     public PFont tahoma;
     public PFont verdana;
     public PFont ocra;
-    PImage image;
-    BufferedImage img;
+    PImage albumArt;
+    AlbumArt AA;
 
     public ArrayList<Button> buttons = new ArrayList<Button>();
 
@@ -50,6 +39,7 @@ public class Visualizer extends PApplet {
 
         minim = new Minim(this);
         volume = 4;// set volume to 100% initially
+
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Starship
         // Amazing\\Ruby Dagger\\01 - Funky Boy in Robo World.mp3");
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Matthew Thiessen &
@@ -63,43 +53,9 @@ public class Visualizer extends PApplet {
         // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\John Mayer\\Where
         // The Light Is_ John Mayer Live In Los Angeles\\08 - Who Did You Think I Was
         // (Live at the Nokia Theatre, Los Angeles, CA - December 2007).mp3");
-        song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Kings Kaleidoscope\\Zeal\\07 - Aimless Knight.mp3");
-        meta = song.getMetaData();
-        fileChosen = true;
-
-        Mp3File mp3file = null;
-        try 
-        {
-            mp3file = new Mp3File("D:\\Users\\joelk\\Music\\All Music\\Kings Kaleidoscope\\Zeal\\07 - Aimless Knight.mp3");
-        } 
-        catch (UnsupportedTagException | InvalidDataException | IOException e) 
-        {
-            e.printStackTrace();
-        }
-
-        if (mp3file.hasId3v2Tag()) 
-        {
-            ID3v2 id3v2Tag = mp3file.getId3v2Tag();
-            byte[] imageData = id3v2Tag.getAlbumImage();
-            try 
-            {
-                img = ImageIO.read(new ByteArrayInputStream(imageData));
-            } catch (IOException e) 
-            {
-                e.printStackTrace();
-            }
-        }
-        
-        try 
-        {
-            image = new PImage(img.getWidth(),img.getHeight(),PConstants.ARGB);
-            img.getRGB(0, 0, image.width, image.height, image.pixels, 0, image.width);
-            image.updatePixels();
-        }
-          catch(Exception e) {
-            System.err.println("Can't create image from buffer");
-            e.printStackTrace();
-        }
+        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Kings Kaleidoscope\\Zeal\\07 - Aimless Knight.mp3");
+        // meta = song.getMetaData();
+        // fileChosen = true;
     }
 
     VolumeSlider vs;
@@ -117,6 +73,7 @@ public class Visualizer extends PApplet {
         vs = new VolumeSlider(this, width - 80, 100, width - 80, 370, 20);// volume slider
         buttons.add(vs);
         buttons.add(new TimeSlider(this, 360, height - 50, width - 100, height - 50, 20));// time slider
+        AA = new AlbumArt(this);
     }
 
     //open JFileChooser and select song
@@ -136,6 +93,7 @@ public class Visualizer extends PApplet {
         {
             song = minim.loadFile(path);//load song
             meta = song.getMetaData();//get song meta data
+            albumArt = AA.getAlbumArt(path);//get album art
             song.rewind();//rewind song to start
             song.setGain(volume);
             fileChosen = true;
@@ -214,8 +172,6 @@ public class Visualizer extends PApplet {
             b.update();
         }
 
-        image(image, width/2 - 400, height/2 -400, 400,400);
-
         //check sliders
         volumePress();
 
@@ -232,6 +188,7 @@ public class Visualizer extends PApplet {
             text("Artist: " + meta.author(), 20, 40); 
             text("Album: " + meta.album(), 20, 60);
             text("Length: " + totalTime, 20, 80);
+            image(albumArt, width/2 - 200, height/2 - 200, 400,400);
         }
         else
         {
