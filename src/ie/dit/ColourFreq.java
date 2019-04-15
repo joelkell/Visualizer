@@ -1,6 +1,6 @@
 /**
- * 
- */
+  * Stores rgb colour values and frequency
+  */
 
 package ie.dit;
 
@@ -11,12 +11,12 @@ public class ColourFreq
     private int g;
     private int b;
 
-    public ColourFreq()
+    public ColourFreq()//default constructor
     {
         freq = 0;
     }
 
-    public ColourFreq(int r, int g, int b)
+    public ColourFreq(int r, int g, int b)//constructor setting rgb values
     {
         this();
         this.r = r;

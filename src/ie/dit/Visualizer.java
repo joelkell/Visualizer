@@ -24,6 +24,8 @@ public class Visualizer extends PApplet {
     public PFont tahoma;
     public PFont verdana;
     public PFont ocra;
+    public int numColours = 10;
+    public int colours[] = new int[numColours * 3];//array of most common colours
     PImage albumArt;
     AlbumArt AA;
 
@@ -39,23 +41,6 @@ public class Visualizer extends PApplet {
 
         minim = new Minim(this);
         volume = 4;// set volume to 100% initially
-
-        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Starship
-        // Amazing\\Ruby Dagger\\01 - Funky Boy in Robo World.mp3");
-        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Matthew Thiessen &
-        // The Earthquakes\\Wind Up Bird\\02 - Man of Stone.mp3");
-        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice
-        // Verses\\06 - Selling The News.mp3");
-        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\Vice
-        // Verses\\08 - Dark Horses.mp3");
-        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Switchfoot\\NATIVE
-        // TONGUE\\10 - TAKE MY FIRE.mp3");
-        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\John Mayer\\Where
-        // The Light Is_ John Mayer Live In Los Angeles\\08 - Who Did You Think I Was
-        // (Live at the Nokia Theatre, Los Angeles, CA - December 2007).mp3");
-        // song = minim.loadFile("D:\\Users\\joelk\\Music\\All Music\\Kings Kaleidoscope\\Zeal\\07 - Aimless Knight.mp3");
-        // meta = song.getMetaData();
-        // fileChosen = true;
     }
 
     VolumeSlider vs;
@@ -95,12 +80,12 @@ public class Visualizer extends PApplet {
             meta = song.getMetaData();//get song meta data
             albumArt = AA.getAlbumArt(path);//get album art
             song.rewind();//rewind song to start
-            song.setGain(volume);
+            song.setGain(volume);//set volume
             fileChosen = true;
 
             albumArt.resize(80, 0);
             albumArt.loadPixels();
-            colours = AA.commonColour(albumArt, 10);
+            colours = AA.commonColour(albumArt, numColours);//load most common colours into array
         }
     }
 
@@ -158,8 +143,6 @@ public class Visualizer extends PApplet {
         return strTime;
     }
 
-    int i = 0;
-    int colours[] = new int[5];
     public void draw()
     {
         background(255);//white background
@@ -190,14 +173,29 @@ public class Visualizer extends PApplet {
             textAlign(LEFT,CENTER);
             text(timeElapsed, 260, height - 50);
             text(timeRemaining, width-90, height - 50);
-            text("Title: " + meta.title(), 110, 20);
-            text("Artist: " + meta.author(), 110, 40); 
-            text("Album: " + meta.album(), 110, 60);
+            String title = meta.title();
+            if(title.length() > 50)
+            {
+                title = title.substring(0,51);
+            }
+            String author = meta.author();
+            if(author.length() > 50)
+            {
+                author = author.substring(0,51);
+            }
+            String album = meta.album();
+            if(album.length() > 50)
+            {
+                album = album.substring(0,51);
+            }
+            text("Title: " + title, 110, 20);
+            text("Artist: " + author, 110, 40); 
+            text("Album: " + album, 110, 60);
             text("Length: " + totalTime, 110, 80);
             image(albumArt, 20, 16, 80,80);//display album art to screen
             
             int i = 0;
-            for(int j = 0; j < 30; j+=3)
+            for(int j = 0; j < numColours * 3; j+=3)
             {
                 fill(colours[j], colours[j+1], colours[j+2]);
                 rect(100*(i+1),100,100,100);

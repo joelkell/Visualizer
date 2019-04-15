@@ -1,6 +1,6 @@
 /**
- * 
- */
+  * Quicksort to sort an array of ColourFreq objects by their frequency
+  */
 
 package ie.dit;
 
