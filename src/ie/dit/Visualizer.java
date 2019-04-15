@@ -28,6 +28,7 @@ public class Visualizer extends PApplet {
     public int colours[] = new int[numColours * 3];//array of most common colours
     PImage albumArt;
     AlbumArt AA;
+    GetColours GC;
 
     public ArrayList<Button> buttons = new ArrayList<Button>();
 
@@ -59,6 +60,7 @@ public class Visualizer extends PApplet {
         buttons.add(vs);
         buttons.add(new TimeSlider(this, 360, height - 50, width - 100, height - 50, 20));// time slider
         AA = new AlbumArt(this);
+        GC = new GetColours();
     }
 
     //open JFileChooser and select song
@@ -85,7 +87,7 @@ public class Visualizer extends PApplet {
 
             albumArt.resize(80, 0);
             albumArt.loadPixels();
-            colours = AA.commonColour(albumArt, numColours);//load most common colours into array
+            colours = GC.commonColour(albumArt, numColours);//load most common colours into array
         }
     }
 
@@ -174,19 +176,19 @@ public class Visualizer extends PApplet {
             text(timeElapsed, 260, height - 50);
             text(timeRemaining, width-90, height - 50);
             String title = meta.title();
-            if(title.length() > 50)
+            if(title.length() > 60)
             {
-                title = title.substring(0,51);
+                title = title.substring(0,61);
             }
             String author = meta.author();
-            if(author.length() > 50)
+            if(author.length() > 60)
             {
-                author = author.substring(0,51);
+                author = author.substring(0,61);
             }
             String album = meta.album();
-            if(album.length() > 50)
+            if(album.length() > 60)
             {
-                album = album.substring(0,51);
+                album = album.substring(0,61);
             }
             text("Title: " + title, 110, 20);
             text("Artist: " + author, 110, 40); 
