@@ -97,6 +97,10 @@ public class Visualizer extends PApplet {
             song.rewind();//rewind song to start
             song.setGain(volume);
             fileChosen = true;
+
+            albumArt.resize(80, 0);
+            albumArt.loadPixels();
+            colours = AA.commonColour(albumArt, 10);
         }
     }
 
@@ -154,6 +158,8 @@ public class Visualizer extends PApplet {
         return strTime;
     }
 
+    int i = 0;
+    int colours[] = new int[5];
     public void draw()
     {
         background(255);//white background
@@ -184,18 +190,29 @@ public class Visualizer extends PApplet {
             textAlign(LEFT,CENTER);
             text(timeElapsed, 260, height - 50);
             text(timeRemaining, width-90, height - 50);
-            text("Title: " + meta.title(), 20, 20);
-            text("Artist: " + meta.author(), 20, 40); 
-            text("Album: " + meta.album(), 20, 60);
-            text("Length: " + totalTime, 20, 80);
-            image(albumArt, width/2 - 200, height/2 - 200, 400,400);
+            text("Title: " + meta.title(), 110, 20);
+            text("Artist: " + meta.author(), 110, 40); 
+            text("Album: " + meta.album(), 110, 60);
+            text("Length: " + totalTime, 110, 80);
+            image(albumArt, 20, 16, 80,80);//display album art to screen
+            
+            int i = 0;
+            for(int j = 0; j < 30; j+=3)
+            {
+                fill(colours[j], colours[j+1], colours[j+2]);
+                rect(100*(i+1),100,100,100);
+                i++;
+            }
+
         }
         else
         {
-            text("Title: ", 20, 20);
-            text("Artist: ", 20, 40); 
-            text("Album: ", 20, 60);
-            text("Length: ", 20, 80); 
+            text("Title: ", 110, 20);
+            text("Artist: ", 110, 40); 
+            text("Album: ", 110, 60);
+            text("Length: ", 110, 80);
+            albumArt = loadImage("default-artwork.png");
+            image(albumArt, 20, 16, 80,80);
         }
     }
 
