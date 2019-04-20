@@ -1,5 +1,5 @@
 /**
- * Button which allows user to choose a song to play from anywhere on there computer
+ * Button which allows user to choose a song to play from anywhere on their computer
  */
 
 package ie.dit;

@@ -19,6 +19,7 @@ public class Visualizer extends PApplet {
     public AudioMetaData meta;
     public String path = null;
     private boolean fileChosen;
+    private boolean paused;
     private float volume = 1;
     public PFont arial;
     public PFont tahoma;
@@ -45,6 +46,8 @@ public class Visualizer extends PApplet {
     }
 
     VolumeSlider vs;
+    Spiderman sm;
+    VBackground background;
     public void setup()//create objects and load fonts
     {
         arial = createFont("arial.ttf",10);
@@ -61,6 +64,9 @@ public class Visualizer extends PApplet {
         buttons.add(new TimeSlider(this, 360, height - 50, width - 100, height - 50, 20));// time slider
         AA = new AlbumArt(this);
         GC = new GetColours();
+
+        sm = new Spiderman(this,width/2,height/2);
+        frameRate(20);
     }
 
     //open JFileChooser and select song
@@ -88,6 +94,7 @@ public class Visualizer extends PApplet {
             albumArt.resize(80, 0);
             albumArt.loadPixels();
             colours = GC.commonColour(albumArt, numColours);//load most common colours into array
+            background = new VBackground(this, 0, 0, colours);
         }
     }
 
@@ -97,10 +104,12 @@ public class Visualizer extends PApplet {
         if(song.isPlaying())
         {
             song.pause();
+            paused = true;
         }
         else
         {
             song.play();
+            paused = false;
         }
     }
 
@@ -155,6 +164,8 @@ public class Visualizer extends PApplet {
         rect(1,1,width-4,height-4);
         strokeWeight(1);
 
+        //sm.render();//spiderman
+
         //display buttons
         for(int i = buttons.size() - 1; i >= 0; i--)
         {
@@ -172,6 +183,10 @@ public class Visualizer extends PApplet {
             timeRemaining = time(song.length());//calculate remaining time
             timeElapsed = time(2 * song.position());//calculate time passed
             totalTime = time(song.position() + song.length());//calculate total song length
+            if(!song.isPlaying() && !paused)
+            {
+                timeRemaining = time(song.position());
+            }
             textAlign(LEFT,CENTER);
             text(timeElapsed, 260, height - 50);
             text(timeRemaining, width-90, height - 50);
@@ -194,15 +209,23 @@ public class Visualizer extends PApplet {
             text("Artist: " + author, 110, 40); 
             text("Album: " + album, 110, 60);
             text("Length: " + totalTime, 110, 80);
+            imageMode(CORNER);
             image(albumArt, 20, 16, 80,80);//display album art to screen
             
-            int i = 0;
+            background.render();
+            background.update();
+            //display most ocmmon colurs to screen
+            /*int i = 0;
             for(int j = 0; j < numColours * 3; j+=3)
             {
                 fill(colours[j], colours[j+1], colours[j+2]);
                 rect(100*(i+1),100,100,100);
+                fill(255);
+                text(colours[j],100*(i+1), 120);
+                text(colours[j+1],100*(i+1), 140);
+                text(colours[j+2],100*(i+1), 160);
                 i++;
-            }
+            }*/
 
         }
         else
@@ -212,6 +235,7 @@ public class Visualizer extends PApplet {
             text("Album: ", 110, 60);
             text("Length: ", 110, 80);
             albumArt = loadImage("default-artwork.png");
+            imageMode(CORNER);
             image(albumArt, 20, 16, 80,80);
         }
     }
