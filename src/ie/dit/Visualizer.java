@@ -59,13 +59,13 @@ public class Visualizer extends PApplet {
         buttons.add(new RewindButton(this, 20, height-80, 60));// rewind button
         buttons.add(new FastForward(this, 180, height-80, 60));// fast forward button
         buttons.add(new ChooseSongButton(this, width - 160, 20, 140));// choose song button
-        vs = new VolumeSlider(this, width - 80, 100, width - 80, 370, 20);// volume slider
+        vs = new VolumeSlider(this, width - 50, 100, width - 50, 370, 20);// volume slider
         buttons.add(vs);
         buttons.add(new TimeSlider(this, 360, height - 50, width - 100, height - 50, 20));// time slider
         AA = new AlbumArt(this);
         GC = new GetColours();
 
-        sm = new Spiderman(this,width/2,height/2);
+        sm = new Spiderman(this,width/2,height/2);//spiderman gif
         frameRate(20);
     }
 
@@ -87,14 +87,21 @@ public class Visualizer extends PApplet {
             song = minim.loadFile(path);//load song
             meta = song.getMetaData();//get song meta data
             albumArt = AA.getAlbumArt(path);//get album art
+            if(albumArt == null)
+            {
+                albumArt = loadImage("default-artwork.png");
+                colours = GC.rainbowColour();
+            }
+            else
+            {
+                colours = GC.commonColour(albumArt, numColours);//load most common colours into array
+            }
+            albumArt.resize(80, 0);
+            albumArt.loadPixels();
+            background = new VBackground(this, 0, 0, colours);
             song.rewind();//rewind song to start
             song.setGain(volume);//set volume
             fileChosen = true;
-
-            albumArt.resize(80, 0);
-            albumArt.loadPixels();
-            colours = GC.commonColour(albumArt, numColours);//load most common colours into array
-            background = new VBackground(this, 0, 0, colours);
         }
     }
 
@@ -183,7 +190,7 @@ public class Visualizer extends PApplet {
             timeRemaining = time(song.length());//calculate remaining time
             timeElapsed = time(2 * song.position());//calculate time passed
             totalTime = time(song.position() + song.length());//calculate total song length
-            if(!song.isPlaying() && !paused)
+            if(!song.isPlaying() && !paused)//Sets time remaining to zero is song has finished playing
             {
                 timeRemaining = time(song.position());
             }
@@ -191,20 +198,34 @@ public class Visualizer extends PApplet {
             text(timeElapsed, 260, height - 50);
             text(timeRemaining, width-90, height - 50);
             String title = meta.title();
-            if(title.length() > 60)
+            if(title == "")//sets title to unkown if song title is unknown
+            {
+                title = "Unknown";
+            }
+            if(title.length() > 60)//sets title to max 60 characters
             {
                 title = title.substring(0,61);
             }
             String author = meta.author();
-            if(author.length() > 60)
+            if(author == "")//sets author to unkown if song author is unknown
+            {
+                author = "Unknown";
+            }
+            if(author.length() > 60)//sets length to max 60 characters
             {
                 author = author.substring(0,61);
             }
             String album = meta.album();
-            if(album.length() > 60)
+            if(album == "")//sets album to unkown if song album is unknown
+            {
+                album = "Unknown";
+            }
+            if(album.length() > 60)//sets album to max 60 characters
             {
                 album = album.substring(0,61);
             }
+
+            //prints to screen song details
             text("Title: " + title, 110, 20);
             text("Artist: " + author, 110, 40); 
             text("Album: " + album, 110, 60);
@@ -212,9 +233,11 @@ public class Visualizer extends PApplet {
             imageMode(CORNER);
             image(albumArt, 20, 16, 80,80);//display album art to screen
             
+            //display visualizer background
             background.render();
             background.update();
-            //display most ocmmon colurs to screen
+
+            //display most common colurs to screen
             /*int i = 0;
             for(int j = 0; j < numColours * 3; j+=3)
             {
@@ -228,7 +251,7 @@ public class Visualizer extends PApplet {
             }*/
 
         }
-        else
+        else//if song is not chosen
         {
             text("Title: ", 110, 20);
             text("Artist: ", 110, 40); 

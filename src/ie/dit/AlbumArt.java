@@ -48,8 +48,7 @@ public class AlbumArt
             byte[] imageData = id3v2Tag.getAlbumImage();//retrieves album art and places in byte array
             if(imageData == null)//if there is no artwork return default artwork
             {
-                albumArt = v.loadImage("default-artwork.png");
-                return albumArt;
+                return null;
             }
 
             try 

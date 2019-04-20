@@ -121,4 +121,51 @@ public class GetColours
         return freqColours;
 
     }
+
+    //Fill colour array with rainbow colours if album art is default
+    public int[] rainbowColour()
+    {
+        int[] colours = new int[30];
+        //red
+        colours[0] = 255;
+        colours[1] = 0;
+        colours[2] = 0;
+        //blue
+        colours[3] = 0;
+        colours[4] = 0;
+        colours[5] = 255;
+        //green
+        colours[6] = 0;
+        colours[7] = 255;
+        colours[8] = 0;
+        //violet
+        colours[9] = 148;
+        colours[10] = 0;
+        colours[11] = 211;
+        //orange
+        colours[12] = 255;
+        colours[13] = 127;
+        colours[14] = 0;
+        //indigo
+        colours[15] = 75;
+        colours[16] = 0;
+        colours[17] = 130;
+        //yellow
+        colours[18] = 255;
+        colours[19] = 255;
+        colours[20] = 0;
+        //teal
+        colours[21] = 0;
+        colours[22] = 128;
+        colours[23] = 129;
+        //black
+        colours[24] = 0;
+        colours[25] = 0;
+        colours[26] = 0;
+        //white
+        colours[27] = 255;
+        colours[28] = 255;
+        colours[29] = 255;
+        return colours;
+    }
 }
