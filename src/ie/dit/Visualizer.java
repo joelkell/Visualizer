@@ -30,8 +30,11 @@ public class Visualizer extends PApplet {
     PImage albumArt;
     AlbumArt AA;
     GetColours GC;
+    VolumeSlider vs;
+    Circle circle;
 
     public ArrayList<Button> buttons = new ArrayList<Button>();
+    public ArrayList<UIElement> uiElements = new ArrayList<UIElement>();
 
     public void settings() {
         fileChosen = false;// no song chosen at launch
@@ -42,10 +45,9 @@ public class Visualizer extends PApplet {
         pixelDensity(displayDensity());
 
         minim = new Minim(this);
-        volume = 4;// set volume to 100% initially
+        volume = 4;// sets volume to 100% initially
     }
 
-    VolumeSlider vs;
     Spiderman sm;
     VBackground background;
     public void setup()//create objects and load fonts
@@ -64,8 +66,8 @@ public class Visualizer extends PApplet {
         buttons.add(new TimeSlider(this, 360, height - 50, width - 100, height - 50, 20));// time slider
         AA = new AlbumArt(this);
         GC = new GetColours();
-
         sm = new Spiderman(this,width/2,height/2);//spiderman gif
+
         frameRate(20);
     }
 
@@ -78,15 +80,21 @@ public class Visualizer extends PApplet {
             {
                 song.pause();
             }
+
+            uiRemove();
         }
+
         FileChooser chooseFile = new FileChooser();
         chooseFile.chooseFile();
         path = chooseFile.getPath();//returns path of file selected
+
         if(path != null)//if file was  chosen
         {
             song = minim.loadFile(path);//load song
             meta = song.getMetaData();//get song meta data
             albumArt = AA.getAlbumArt(path);//get album art
+
+            //Load default colours and album if no album art
             if(albumArt == null)
             {
                 albumArt = loadImage("default-artwork.png");
@@ -96,12 +104,52 @@ public class Visualizer extends PApplet {
             {
                 colours = GC.commonColour(albumArt, numColours);//load most common colours into array
             }
+            
             albumArt.resize(80, 0);
             albumArt.loadPixels();
             background = new VBackground(this, 0, 0, colours);
+
+            //Add uiElements to list
+            for(int i = 0; i < numColours; i++)
+            {
+                float radius = random(10,20);
+                float x = random(background.getGap() + radius, width - (2 * background.getGap()) - radius);
+                float y = random(background.getGap() + radius, height - (2 * background.getGap()) - radius);
+
+                //Make sure circles don't overlap
+                if(uiElements.size() > 0)
+                {
+                    for(int j = 0; j < uiElements.size(); j++)
+                    {
+                        Circle ui = (Circle) uiElements.get(j);
+                        if(x < ui.pos.x + (2 * radius) && x > ui.pos.x - (2 * radius))
+                        {
+                            x = random(background.getGap() + radius, width - (2 * background.getGap()) - radius);
+                            j = 0;
+                        }
+                        if(y < ui.pos.y + (2 * radius) && y > ui.pos.y - (2 * radius))
+                        {
+                            y = random(background.getGap() + radius, height - (2 * background.getGap()) - radius);
+                            j = 0;
+                        }
+                    }
+                }
+                circle = new Circle(this, background, x, y, colours[(3 * i)], colours[(3 * i) + 1], colours[(3 * i) + 2], radius);
+                uiElements.add(circle);
+            }
+
             song.rewind();//rewind song to start
             song.setGain(volume);//set volume
             fileChosen = true;
+        }
+    }
+
+    //remove all uiElements from list
+    public void uiRemove()
+    {
+        for(int i = uiElements.size()-1; i >= 0; i--)
+        {
+            uiElements.remove(i);
         }
     }
 
@@ -164,6 +212,7 @@ public class Visualizer extends PApplet {
     public void draw()
     {
         background(255);//white background
+
         //black border
         stroke(0);
         strokeWeight(4);
@@ -181,22 +230,25 @@ public class Visualizer extends PApplet {
             b.update();
         }
 
-        //check sliders
+        //check if slider is being moved
         volumePress();
 
         fill(0);
-        if(fileChosen == true)
+        if(fileChosen == true)//If a song has been selected
         {
             timeRemaining = time(song.length());//calculate remaining time
             timeElapsed = time(2 * song.position());//calculate time passed
             totalTime = time(song.position() + song.length());//calculate total song length
+
             if(!song.isPlaying() && !paused)//Sets time remaining to zero is song has finished playing
             {
                 timeRemaining = time(song.position());
             }
+
             textAlign(LEFT,CENTER);
             text(timeElapsed, 260, height - 50);
             text(timeRemaining, width-90, height - 50);
+
             String title = meta.title();
             if(title == "")//sets title to unkown if song title is unknown
             {
@@ -260,6 +312,14 @@ public class Visualizer extends PApplet {
             albumArt = loadImage("default-artwork.png");
             imageMode(CORNER);
             image(albumArt, 20, 16, 80,80);
+        }
+
+        //display UIElements
+        for(int i = uiElements.size() - 1; i >= 0; i--)
+        {
+            Circle ui = (Circle) uiElements.get(i);
+            ui.render();
+            ui.update();
         }
     }
 

@@ -23,13 +23,13 @@ public class VBackground extends UIElement
     //draw  to screen
     public void render()
     {
-        visualizer.stroke(0);
+        visualizer.stroke(0);//black border
         visualizer.strokeWeight(4);
-        visualizer.fill(r,g,b);
-        visualizer.rect(gap,gap,visualizer.width - 2 * gap,visualizer.height - (2 * gap));
+        visualizer.fill(r,g,b);//fill colour
+        visualizer.rect(gap,gap,visualizer.width - (2 * gap),visualizer.height - (2 * gap));
     }
 
-    //
+    //updates fill colour  
     public void update()
     {
         r = Visualizer.lerp(r, (float)colours[(index + 3)], 0.05f);
@@ -43,5 +43,15 @@ public class VBackground extends UIElement
         {
             index = 0;
         }
+    }
+
+    public void setGap(float gap)
+    {
+        this.gap = gap;
+    }
+
+    public float getGap()
+    {
+        return gap;
     }
 }
