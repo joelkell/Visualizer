@@ -211,6 +211,7 @@ public class Visualizer extends PApplet {
 
     public float timeDelta;
     private float last;
+    Line l;
     public void draw()
     {
         float now = millis();
@@ -226,7 +227,8 @@ public class Visualizer extends PApplet {
         rect(1,1,width-4,height-4);
         strokeWeight(1);
 
-        sm.render();//spiderman
+        // sm.render();//spiderman
+        // sm.update();
 
         //display buttons
         for(int i = buttons.size() - 1; i >= 0; i--)
@@ -323,9 +325,15 @@ public class Visualizer extends PApplet {
         //display UIElements
         for(int i = uiElements.size() - 1; i >= 0; i--)
         {
-            Circle ui = (Circle) uiElements.get(i);
+            UIElement ui = uiElements.get(i);
             ui.render();
             ui.update();
+
+            if(ui instanceof Circle)
+            {
+                Circle c = (Circle) ui;
+                c.displayLines();
+            }
         }
     }
 

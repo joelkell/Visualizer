@@ -38,15 +38,15 @@ public class Spiderman extends UIElement
     {
         visualizer.imageMode(Visualizer.CENTER);
         visualizer.image(spiderman[index],pos.x,pos.y,visualizer.width/2, visualizer.height/2);
-        index++;
-        if(index == 549)
-        {
-            index = 0;
-        }
     }
 
     //
     public void update()
     {
+        index++;
+        if(index == 549)
+        {
+            index = 0;
+        }
     }
 }

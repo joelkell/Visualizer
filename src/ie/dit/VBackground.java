@@ -30,8 +30,8 @@ public class VBackground extends UIElement
     {
         visualizer.stroke(0);//black border
         visualizer.strokeWeight(4);
-        // visualizer.fill(r,g,b);//fill colour
-        visualizer.fill(200);
+        visualizer.fill(r,g,b);//fill colour
+        //visualizer.fill(0);
         visualizer.rect(gap,gap,visualizer.width - (2 * gap),visualizer.height - (2 * gap));
     }
 
@@ -39,17 +39,17 @@ public class VBackground extends UIElement
     public void update()
     {
         //Updates fill colour
-        // r = Visualizer.lerp(r, (float)colours[(index + 3)], 0.05f);
-        // g = Visualizer.lerp(g, (float)colours[(index + 4)], 0.05f);
-        // b = Visualizer.lerp(b, (float)colours[(index + 5)], 0.05f);
-        // if(Math.round(r) == colours[(index + 3) % 30] && Math.round(g) == colours[(index + 4) % 30] && Math.round(b) == colours[(index + 5) % 30])
-        // {
-        //     index += 3;
-        // }
-        // if(index == 27)
-        // {
-        //     index = 0;
-        // }
+        r = Visualizer.lerp(r, (float)colours[(index + 3)], 0.05f);
+        g = Visualizer.lerp(g, (float)colours[(index + 4)], 0.05f);
+        b = Visualizer.lerp(b, (float)colours[(index + 5)], 0.05f);
+        if(Math.round(r) == colours[(index + 3) % 30] && Math.round(g) == colours[(index + 4) % 30] && Math.round(b) == colours[(index + 5) % 30])
+        {
+            index += 3;
+        }
+        if(index == 27)
+        {
+            index = 0;
+        }
 
         //Adds more circles to screen when removed or every 3 seconds when song is playing
         timePassed += visualizer.timeDelta;
@@ -115,5 +115,10 @@ public class VBackground extends UIElement
     public float getGap()
     {
         return gap;
+    }
+
+    public boolean getFullscreen()
+    {
+        return fullscreen;
     }
 }
