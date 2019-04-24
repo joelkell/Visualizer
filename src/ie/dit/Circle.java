@@ -1,6 +1,6 @@
 /**
- * 
- */
+  * Draw circle to screen and add lines from circle to circle
+  */
 
 package ie.dit;
 
@@ -13,6 +13,8 @@ public class Circle extends UIElement
     VBackground vb;
     int createLine;
     int chance;
+    private int numLinesConnected;
+    private boolean lineAvailable;
 
     public ArrayList<Line> lines = new ArrayList<Line>();
     
@@ -26,6 +28,7 @@ public class Circle extends UIElement
         this.b = b;
         createLine = 0;
         chance = 100;
+        numLinesConnected = 0;
     }
 
     //draw to screen
@@ -46,9 +49,12 @@ public class Circle extends UIElement
         visualizer.popMatrix();
     }
 
-    //
+    //update circle
     public void update()
     {
+        //get number of lines connected to circle
+        numLinesConnected = lines.size();
+
         //Circles move to left when music is playing
         if(visualizer.song.isPlaying())
         {
@@ -63,23 +69,40 @@ public class Circle extends UIElement
 
         //create Line
         createLine = (int)visualizer.random(0, chance);
-        if(createLine == 10)
+        if(createLine == 10 && numLinesConnected < 3)//if lands on chance and has less than 3 connected lines currently
         {
+            int checked;
             Circle c;
-            do
+            do//continue to search for other circles
             {
                 c = (Circle) visualizer.uiElements.get((int)visualizer.random(0, visualizer.uiElements.size()));
-            }while(c == this);
-            Line l = new Line(visualizer, vb, this, c);
-            lines.add(l);
-            c.lines.add(l);
-            //lines.add(new Line(visualizer, vb, this, c, this));
-            //c.lines.add(new Line(visualizer, vb, c, this, this));
+                checked = 0;
+                lineAvailable = true;
+                for(int i = 0; i < visualizer.uiElements.size(); i++)
+                {
+                    Circle circle = (Circle) visualizer.uiElements.get(i);
+                    if(circle.numLinesConnected >= 3)
+                    {
+                        checked++;
+                    }
+                    if(visualizer.uiElements.size() - checked <= 1)//if all other circles have full lines connected then break from loop
+                    {
+                        lineAvailable = false;
+                    }
+                }
+            }while((c == this || c.numLinesConnected > 2) && lineAvailable);
 
-            chance *= 10;
+            if(checked != visualizer.uiElements.size())//add line if new circle chosen
+            {
+                Line l = new Line(visualizer, this, c);
+                lines.add(l);
+                c.lines.add(l);
+                chance *= 10;
+            }
         }
     }
 
+    //display lines to screen
     public void displayLines()
     {
         for(int i = lines.size() -1; i >= 0; i--)
