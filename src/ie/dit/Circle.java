@@ -9,26 +9,32 @@ import java.util.ArrayList;
 public class Circle extends UIElement
 {
     private float radius;
+    private float dy;
     private int r,g,b;
     VBackground vb;
+    Fourier fourier;
     int createLine;
     int chance;
+    int type;
     private int numLinesConnected;
     private boolean lineAvailable;
 
     public ArrayList<Line> lines = new ArrayList<Line>();
     
-    public Circle(Visualizer visualizer, VBackground vb, float x, float y, int r, int g, int b, float radius)//constructor
+    public Circle(Visualizer visualizer, VBackground vb, Fourier fourier, float x, float y, int r, int g, int b, float radius, int type)//constructor
     {
         super(visualizer, x, y);
+        this.fourier = fourier;
         this.vb = vb;
         this.radius = radius;
+        this.type = type;
         this.r = r;
         this.g = g;
         this.b = b;
         createLine = 0;
         chance = 100;
         numLinesConnected = 0;
+        dy = visualizer.random(-0.2f,0.2f);
     }
 
     //draw to screen
@@ -52,13 +58,52 @@ public class Circle extends UIElement
     //update circle
     public void update()
     {
+        //update radius size
+        if(type == 0)//bass band circles 0Hz - 200Hz
+        {
+            if(fourier.getAverage(fourier.bass) > 0)
+            {
+                radius = Visualizer.lerp(radius, fourier.getAverage(fourier.bass),0.2f);
+            }
+        }
+        if(type == 1)//Low Mids 200Hz - 1kHz
+        {
+            if(fourier.getAverage(fourier.lowMid) > 0)
+            {
+                radius = Visualizer.lerp(radius, fourier.getAverage(fourier.lowMid)*2,0.2f);
+            }
+        }
+        if(type == 2)//High Mids 1kHz - 5kHz
+        {
+            if(fourier.getAverage(fourier.highMid) > 0)
+            {
+            radius = Visualizer.lerp(radius, fourier.getAverage(fourier.highMid)*10,0.2f);
+            }
+        }
+        if(type == 3)//Treble 5kHz - 20kHz
+        {
+            if(fourier.getAverage(fourier.treble) > 0)
+            {
+            radius = Visualizer.lerp(radius, fourier.getAverage(fourier.treble)*10,0.2f);
+            }
+        }
+        if(radius < 8)//min size
+        {
+            radius = 8;
+        }
+        if(radius > 30)//max size
+        {
+            radius = 30;
+        }
+        
         //get number of lines connected to circle
         numLinesConnected = lines.size();
 
-        //Circles move to left when music is playing
+        //Circles move to left when music is playing and by dy on y axis
         if(visualizer.song.isPlaying())
         {
-            pos.x -= 0.2;
+            pos.x -= 0.25;
+            pos.y += dy;
         }
 
         //remove circles off side of screen
@@ -66,10 +111,33 @@ public class Circle extends UIElement
         {
             visualizer.uiElements.remove(this);
         }
+        //wrap circles vertically
+        if(vb.getFullscreen())
+        {
+            if(pos.y < vb.getGap())
+            {
+                pos.y = visualizer.height - vb.getGap();
+            }
+            if(pos.y > visualizer.height - vb.getGap())
+            {
+                pos.y = vb.getGap();
+            }
+        }
+        else
+        {
+            if(pos.y < vb.getGap())
+            {
+                pos.y = visualizer.height - vb.getGap() - (2 * radius);
+            }
+            if(pos.y > visualizer.height - vb.getGap() - (2 * radius))
+            {
+                pos.y = vb.getGap();
+            }
+        }
 
         //create Line
         createLine = (int)visualizer.random(0, chance);
-        if(createLine == 10 && numLinesConnected < 3)//if lands on chance and has less than 3 connected lines currently
+        if(createLine == 10 && numLinesConnected < 2)//if lands on chance and has less than 2 connected lines currently
         {
             int checked;
             Circle c;
@@ -81,7 +149,7 @@ public class Circle extends UIElement
                 for(int i = 0; i < visualizer.uiElements.size(); i++)
                 {
                     Circle circle = (Circle) visualizer.uiElements.get(i);
-                    if(circle.numLinesConnected >= 3)
+                    if(circle.numLinesConnected >= 2)
                     {
                         checked++;
                     }
@@ -90,14 +158,14 @@ public class Circle extends UIElement
                         lineAvailable = false;
                     }
                 }
-            }while((c == this || c.numLinesConnected > 2) && lineAvailable);
+            }while((c == this || c.numLinesConnected > 1) && lineAvailable);
 
             if(checked != visualizer.uiElements.size())//add line if new circle chosen
             {
                 Line l = new Line(visualizer, this, c);
                 lines.add(l);
                 c.lines.add(l);
-                chance *= 10;
+                chance *= 10 * (numLinesConnected + 1);
             }
         }
     }

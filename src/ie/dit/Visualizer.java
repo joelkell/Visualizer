@@ -17,6 +17,7 @@ public class Visualizer extends PApplet {
     public Minim minim;
     public AudioPlayer song;
     public AudioMetaData meta;
+    public Fourier fourier;
     public String path = null;
     private boolean fileChosen;
     private boolean paused;
@@ -27,6 +28,7 @@ public class Visualizer extends PApplet {
     public PFont ocra;
     public int numColours = 10;
     public int colours[] = new int[numColours * 3];//array of most common colours
+    public int circleSizes[] = new int[4];
     PImage albumArt;
     AlbumArt AA;
     GetColours GC;
@@ -36,12 +38,13 @@ public class Visualizer extends PApplet {
     public ArrayList<Button> buttons = new ArrayList<Button>();
     public ArrayList<UIElement> uiElements = new ArrayList<UIElement>();
 
-    public void settings() {
+    public void settings() 
+    {
         fileChosen = false;// no song chosen at launch
-        size(1228, 692);
+        //size(1228, 692);
         smooth(8);
-        // fullScreen();
-        // size(displayWidth, displayHeight);
+        fullScreen();
+        size(displayWidth, displayHeight);
         pixelDensity(displayDensity());
 
         minim = new Minim(this);
@@ -68,6 +71,11 @@ public class Visualizer extends PApplet {
         GC = new GetColours();
         sm = new Spiderman(this,width/2,height/2);//spiderman gif
 
+        circleSizes[0] = 8;
+        circleSizes[1] = 12;
+        circleSizes[2] = 16;
+        circleSizes[3] = 20;
+
         frameRate(60);
     }
 
@@ -92,6 +100,8 @@ public class Visualizer extends PApplet {
         {
             song = minim.loadFile(path);//load song
             meta = song.getMetaData();//get song meta data
+            fourier = new Fourier(this, minim, song);
+            fourier.fillLists();
             albumArt = AA.getAlbumArt(path);//get album art
 
             //Load default colours and album if no album art
@@ -112,7 +122,8 @@ public class Visualizer extends PApplet {
             //Add uiElements to list
             for(int i = 0; i < numColours; i++)
             {
-                float radius = random(10,20);
+                float radius = circleSizes[i%4];
+                int type = i%4;
                 float x = random(background.getGap(), width - background.getGap() - (2 * radius));
                 float y = random(background.getGap(), height - background.getGap() - (2 * radius));
 
@@ -134,7 +145,7 @@ public class Visualizer extends PApplet {
                         }
                     }
                 }
-                circle = new Circle(this, background, x, y, colours[(3 * i)], colours[(3 * i) + 1], colours[(3 * i) + 2], radius);
+                circle = new Circle(this, background, fourier, x, y, colours[(3 * i)], colours[(3 * i) + 1], colours[(3 * i) + 2], radius, type);
                 uiElements.add(circle);
             }
 
@@ -211,7 +222,7 @@ public class Visualizer extends PApplet {
 
     public float timeDelta;
     private float last;
-    Line l;
+    int i = 0;
     public void draw()
     {
         float now = millis();
@@ -309,7 +320,6 @@ public class Visualizer extends PApplet {
                 text(colours[j+2],100*(i+1), 160);
                 i++;
             }*/
-
         }
         else//if song is not chosen
         {

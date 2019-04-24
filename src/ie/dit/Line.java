@@ -71,10 +71,9 @@ public class Line extends UIElement
                 dx = Visualizer.lerp(dx, x1, speed);
                 dy = Visualizer.lerp(dy, y1, speed);
             }
-            else//snap to circle when inside radius
+            else//Remove when inside radius
             {
-                dx = x1;
-                dy = y1;
+                c1.lines.remove(this);
             }
         }
         else if(!visualizer.uiElements.contains(c1) && visualizer.uiElements.contains(c2))//if c1 is removed
@@ -97,10 +96,8 @@ public class Line extends UIElement
                 dx = Visualizer.lerp(dx, x1, speed);
                 dy = Visualizer.lerp(dy, y1, speed);
             }
-            else//snap to circle when inside radius
+            else//Remove when inside radius
             {
-                dx = x1;
-                dy = y1;
                 c2.lines.remove(this);
             }
         } 

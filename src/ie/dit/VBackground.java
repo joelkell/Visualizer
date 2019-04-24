@@ -7,7 +7,7 @@ package ie.dit;
 public class VBackground extends UIElement
 {
     private float r,g,b;
-    private int index, index2;
+    private int index, index2, index3;
     private int[] colours;
     private float gap = 100;
     private float timePassed;
@@ -21,6 +21,7 @@ public class VBackground extends UIElement
         this.colours = colours;
         index = 0;
         index2 = 0;
+        index3 = 0;
         timePassed = 0;
         fullscreen = false;
     }
@@ -51,11 +52,12 @@ public class VBackground extends UIElement
             index = 0;
         }
 
-        //Adds more circles to screen when removed or every 3 seconds when song is playing
+        //Adds more circles every 5 seconds while song is playing
         timePassed += visualizer.timeDelta;
-        if(visualizer.uiElements.size() < 10 || timePassed > 3.0f && visualizer.song.isPlaying())
+        if(timePassed > 5.0f && visualizer.song.isPlaying())
         {
-            float radius = visualizer.random(10,20);
+            float radius = visualizer.circleSizes[index3%4];
+            int type = index3%4;
             float y = visualizer.random(gap, visualizer.height - gap - (2 * radius));
             for(int j = visualizer.uiElements.size() - 4; j < visualizer.uiElements.size(); j++)
             {
@@ -66,13 +68,14 @@ public class VBackground extends UIElement
                     j = visualizer.uiElements.size() - 4;
                 }
             }
-            visualizer.uiElements.add(new Circle(visualizer, this, visualizer.width - gap - (2 * radius), y, colours[(3 * index2)], colours[(3 * index2) + 1], colours[(3 * index2) + 2], radius));
+            visualizer.uiElements.add(new Circle(visualizer, this, visualizer.fourier, visualizer.width - gap - (2 * radius), y, colours[(3 * index2)], colours[(3 * index2) + 1], colours[(3 * index2) + 2], radius, type));
             index2++;
             if(index2 > 9)
             {
                 index2 = 0;
             }
             timePassed = 0;
+            index3++;
         }
     }
 
