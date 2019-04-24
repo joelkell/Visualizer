@@ -104,7 +104,7 @@ public class Visualizer extends PApplet {
             {
                 colours = GC.commonColour(albumArt, numColours);//load most common colours into array
             }
-            
+
             albumArt.resize(80, 0);
             albumArt.loadPixels();
             background = new VBackground(this, 0, 0, colours);
@@ -113,8 +113,8 @@ public class Visualizer extends PApplet {
             for(int i = 0; i < numColours; i++)
             {
                 float radius = random(10,20);
-                float x = random(background.getGap() + radius, width - (2 * background.getGap()) - radius);
-                float y = random(background.getGap() + radius, height - (2 * background.getGap()) - radius);
+                float x = random(background.getGap(), width - background.getGap() - (2 * radius));
+                float y = random(background.getGap(), height - background.getGap() - (2 * radius));
 
                 //Make sure circles don't overlap
                 if(uiElements.size() > 0)
@@ -124,12 +124,12 @@ public class Visualizer extends PApplet {
                         Circle ui = (Circle) uiElements.get(j);
                         if(x < ui.pos.x + (2 * radius) && x > ui.pos.x - (2 * radius))
                         {
-                            x = random(background.getGap() + radius, width - (2 * background.getGap()) - radius);
+                            x = random(background.getGap(), width - background.getGap() - (2 * radius));
                             j = 0;
                         }
                         if(y < ui.pos.y + (2 * radius) && y > ui.pos.y - (2 * radius))
                         {
-                            y = random(background.getGap() + radius, height - (2 * background.getGap()) - radius);
+                            y = random(background.getGap(), height - background.getGap() - (2 * radius));
                             j = 0;
                         }
                     }
@@ -209,8 +209,14 @@ public class Visualizer extends PApplet {
         return strTime;
     }
 
+    public float timeDelta;
+    private float last;
     public void draw()
     {
+        float now = millis();
+        timeDelta = (now - last) / 1000.0f;
+        last = now;
+
         background(255);//white background
 
         //black border
@@ -354,7 +360,11 @@ public class Visualizer extends PApplet {
             if (key == CODED && keyCode == RIGHT)//right arrow 
             {
                 song.skip(1000);//fast forward
-            } 
+            }
+            if(key == 'f')
+            {
+                background.toggleFullscreen();
+            }
         }
 
     }
