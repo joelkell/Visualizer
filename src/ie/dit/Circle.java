@@ -45,6 +45,7 @@ public class Circle extends UIElement
             pos.x--;
         }
 
+        //remove circles off side of screen
         if(pos.x < vb.getGap())
         {
             visualizer.uiElements.remove(this);

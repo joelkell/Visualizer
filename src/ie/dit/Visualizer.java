@@ -68,7 +68,7 @@ public class Visualizer extends PApplet {
         GC = new GetColours();
         sm = new Spiderman(this,width/2,height/2);//spiderman gif
 
-        frameRate(20);
+        frameRate(60);
     }
 
     //open JFileChooser and select song
@@ -226,7 +226,7 @@ public class Visualizer extends PApplet {
         rect(1,1,width-4,height-4);
         strokeWeight(1);
 
-        //sm.render();//spiderman
+        sm.render();//spiderman
 
         //display buttons
         for(int i = buttons.size() - 1; i >= 0; i--)
