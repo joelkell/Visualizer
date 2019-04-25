@@ -65,6 +65,10 @@ public class Circle extends UIElement
             {
                 radius = Visualizer.lerp(radius, fourier.getAverage(fourier.bass),0.2f);
             }
+            else
+            {
+                radius = Visualizer.lerp(radius, 20,0.02f);
+            }
         }
         if(type == 1)//Low Mids 200Hz - 1kHz
         {
@@ -72,19 +76,31 @@ public class Circle extends UIElement
             {
                 radius = Visualizer.lerp(radius, fourier.getAverage(fourier.lowMid)*2,0.2f);
             }
+            else
+            {
+                radius = Visualizer.lerp(radius, 20,0.02f);
+            }
         }
         if(type == 2)//High Mids 1kHz - 5kHz
         {
             if(fourier.getAverage(fourier.highMid) > 0)
             {
-            radius = Visualizer.lerp(radius, fourier.getAverage(fourier.highMid)*10,0.2f);
+                radius = Visualizer.lerp(radius, fourier.getAverage(fourier.highMid)*10,0.2f);
+            }
+            else
+            {
+                radius = Visualizer.lerp(radius, 20,0.02f);
             }
         }
         if(type == 3)//Treble 5kHz - 20kHz
         {
             if(fourier.getAverage(fourier.treble) > 0)
             {
-            radius = Visualizer.lerp(radius, fourier.getAverage(fourier.treble)*10,0.2f);
+                radius = Visualizer.lerp(radius, fourier.getAverage(fourier.treble)*10,0.2f);
+            }
+            else
+            {
+                radius = Visualizer.lerp(radius, 20,0.02f);
             }
         }
         if(radius < 8)//min size
