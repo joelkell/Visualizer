@@ -382,6 +382,10 @@ public class Visualizer extends PApplet {
             {
                 background.toggleFullscreen();
             }
+            if(key == 's')
+            {
+                background.toggleSolid();
+            }
         }
 
     }

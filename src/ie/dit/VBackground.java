@@ -8,14 +8,13 @@ import java.util.ArrayList;
 
 public class VBackground extends UIElement
 {
-    private float r, g, b, r2, g2, b2;
+    private float r, g, b;
     private int index, index2, index3;
     private int[] colours;
     private float gap = 100;
-    private float vertGap;
-    private float horGap;
     private float timePassed;
     private boolean fullscreen;
+    private boolean solid;
 
     private ArrayList<VBackgroundBox> boxes = new ArrayList<VBackgroundBox>();
 
@@ -31,6 +30,7 @@ public class VBackground extends UIElement
         index3 = 0;
         timePassed = 0;
         fullscreen = false;
+        solid = false;
 
         for(int i = 0; i < visualizer.numColours; i++)
         {
@@ -53,42 +53,22 @@ public class VBackground extends UIElement
     {
         visualizer.stroke(0);//black border
         visualizer.strokeWeight(4);
-        // visualizer.fill(r,g,b);//fill colour
-        visualizer.fill(255);
-        visualizer.rect(gap,gap,visualizer.width - (2 * gap),visualizer.height - (2 * gap));
-
-        //Static colours with loops
-        // vertGap = (visualizer.height - (2* gap))/2;
-        // horGap = (visualizer.width - (2 * gap)) / (float)(visualizer.numColours/2);
-        // visualizer.noStroke();
-        // for(int i = 0; i < visualizer.numColours/2; i++)//top row
-        // {
-        //     r = colours[(i * 3)];
-        //     g = colours[(i * 3) + 1];
-        //     b = colours[(i * 3) + 2];
-        //     visualizer.fill(r,g,b);
-        //     visualizer.rect(gap  + (i * horGap), gap, horGap, vertGap);
-        //     visualizer.fill(255);
-        //     visualizer.text("R: " + r, gap  + (i * horGap), gap);
-        //     visualizer.text("G: " + g, gap  + (i * horGap), gap + 20);
-        //     visualizer.text("B: " + b, gap  + (i * horGap), gap + 40);
-
-        //     r2 = colours[(i * 3) + 15];
-        //     g2 = colours[(i * 3) + 16];
-        //     b2 = colours[(i * 3) + 17];
-        //     visualizer.fill(r2,g2,b2);
-        //     visualizer.rect(gap  + (i * horGap), gap + vertGap, horGap, vertGap);
-        //     visualizer.fill(255);
-        //     visualizer.text("R: " + r2, gap  + (i * horGap), gap + vertGap);
-        //     visualizer.text("G: " + g2, gap  + (i * horGap), gap + vertGap + 20);
-        //     visualizer.text("B: " + b2, gap  + (i * horGap), gap + vertGap + 40);
-        // }
-
-        for(int i = 0; i < boxes.size(); i++)
+        if(solid == true)
         {
-            VBackgroundBox vBox = boxes.get(i);
-            vBox.render();
-            vBox.update();
+            visualizer.fill(r,g,b);//fill colour
+            visualizer.rect(gap,gap,visualizer.width - (2 * gap),visualizer.height - (2 * gap));
+        }
+        else
+        {
+            visualizer.fill(255);//white background
+            visualizer.rect(gap,gap,visualizer.width - (2 * gap),visualizer.height - (2 * gap));
+
+            for(int i = 0; i < boxes.size(); i++)
+            {
+                VBackgroundBox vBox = boxes.get(i);
+                vBox.render();
+                vBox.update();
+            }
         }
     }
 
@@ -179,5 +159,15 @@ public class VBackground extends UIElement
     public boolean getFullscreen()
     {
         return fullscreen;
+    }
+
+    public void toggleSolid()
+    {
+        solid = !solid;
+    }
+
+    public boolean getSolid()
+    {
+        return solid;
     }
 }
