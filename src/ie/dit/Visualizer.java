@@ -22,9 +22,6 @@ public class Visualizer extends PApplet {
     private boolean paused;
     private boolean toggle;
     private float volume = 1;
-    public PFont arial;
-    public PFont tahoma;
-    public PFont verdana;
     public PFont ocra;
     public int numColours = 10;
     public int colours[] = new int[numColours * 3];//array of most common colours
@@ -55,9 +52,6 @@ public class Visualizer extends PApplet {
     VBackground background;
     public void setup()//create objects and load fonts
     {
-        arial = createFont("arial.ttf",10);
-        tahoma = createFont("tahoma.ttf",10);
-        verdana = createFont("verdana.ttf",10);
         ocra = createFont("OCRAEXT.TTF",10);
 
         buttons.add(new PlayPause(this, 100, height-80, 60));// play/pause button
@@ -67,7 +61,8 @@ public class Visualizer extends PApplet {
         vs = new VolumeSlider(this, width - 50, 100, width - 50, 370, 20);// volume slider
         buttons.add(vs);
         buttons.add(new TimeSlider(this, 360, height - 50, width - 100, height - 50, 20));// time slider
-        buttons.add(new Fullscreen(this, 22, 120, 60));// play/pause button
+        buttons.add(new Fullscreen(this, 22, 120, 60));// Fullscreen Button
+        buttons.add(new VisualizerButton(this, 22, 200, 60));// Visualizer type Button
 
         AA = new AlbumArt(this);
         GC = new GetColours();
@@ -412,6 +407,11 @@ public class Visualizer extends PApplet {
     public void toggleBackground()
     {
         toggle = !toggle;
+    }
+
+    public boolean getToggle()
+    {
+        return toggle;
     }
 
     /**
