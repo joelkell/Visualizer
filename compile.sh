@@ -1,1 +1,1 @@
-javac -classpath "./;./lib/minim.jar;./lib/core.jar" -d bin src/ie/dit/*.java
+javac -classpath "./;./lib/minim.jar;./lib/core.jar;./lib/mp3agic-0.9.1.jar" -d bin src/ie/dit/*.java
