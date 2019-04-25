@@ -173,11 +173,15 @@ public class Circle extends UIElement
     //display lines to screen
     public void displayLines()
     {
-        for(int i = lines.size() -1; i >= 0; i--)
+        if(lines.size() > 0)//prevent out of bounds exception
         {
-            Line l = lines.get(i);
-            l.render();
-            l.update();
+         
+            for(int i = lines.size() -1; i >= 0; i--)
+            {
+                Line l = lines.get(i);
+                l.render();
+                l.update();
+            }   
         }
     }
 

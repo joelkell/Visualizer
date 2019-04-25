@@ -20,6 +20,7 @@ public class Visualizer extends PApplet {
     public String path = null;
     private boolean fileChosen;
     private boolean paused;
+    private boolean toggle;
     private float volume = 1;
     public PFont arial;
     public PFont tahoma;
@@ -66,6 +67,8 @@ public class Visualizer extends PApplet {
         vs = new VolumeSlider(this, width - 50, 100, width - 50, 370, 20);// volume slider
         buttons.add(vs);
         buttons.add(new TimeSlider(this, 360, height - 50, width - 100, height - 50, 20));// time slider
+        buttons.add(new Fullscreen(this, 22, 120, 60));// play/pause button
+
         AA = new AlbumArt(this);
         GC = new GetColours();
         sm = new Spiderman(this,width/2,height/2);//spiderman gif
@@ -98,6 +101,7 @@ public class Visualizer extends PApplet {
         if(path != null)//if file was  chosen
         {
             song = minim.loadFile(path);//load song
+            toggle = true;
             meta = song.getMetaData();//get song meta data
             fourier = new Fourier(this, minim, song);
             fourier.fillLists();
@@ -237,9 +241,6 @@ public class Visualizer extends PApplet {
         rect(1,1,width-4,height-4);
         strokeWeight(1);
 
-        // sm.render();//spiderman
-        // sm.update();
-
         //display buttons
         for(int i = buttons.size() - 1; i >= 0; i--)
         {
@@ -303,22 +304,30 @@ public class Visualizer extends PApplet {
             imageMode(CORNER);
             image(albumArt, 20, 16, 80,80);//display album art to screen
             
-            //display visualizer background
-            background.render();
-            background.update();
-
-            //display most common colurs to screen
-            /*int i = 0;
-            for(int j = 0; j < numColours * 3; j+=3)
+            if(toggle == true)//display visualizer background
             {
-                fill(colours[j], colours[j+1], colours[j+2]);
-                rect(100*(i+1),100,100,100);
-                fill(255);
-                text(colours[j],100*(i+1), 120);
-                text(colours[j+1],100*(i+1), 140);
-                text(colours[j+2],100*(i+1), 160);
-                i++;
-            }*/
+                background.render();
+                background.update();
+
+                //display UIElements
+                for(int i = uiElements.size() - 1; i >= 0; i--)
+                {
+                    UIElement ui = uiElements.get(i);
+                    ui.render();
+                    ui.update();
+
+                    if(ui instanceof Circle)
+                    {
+                        Circle c = (Circle) ui;
+                        c.displayLines();
+                    }
+                }
+            }
+            else//Display Spiderman Background
+            {
+                sm.render();
+                sm.update();
+            }
         }
         else//if song is not chosen
         {
@@ -329,20 +338,6 @@ public class Visualizer extends PApplet {
             albumArt = loadImage("default-artwork.png");
             imageMode(CORNER);
             image(albumArt, 20, 16, 80,80);
-        }
-
-        //display UIElements
-        for(int i = uiElements.size() - 1; i >= 0; i--)
-        {
-            UIElement ui = uiElements.get(i);
-            ui.render();
-            ui.update();
-
-            if(ui instanceof Circle)
-            {
-                Circle c = (Circle) ui;
-                c.displayLines();
-            }
         }
     }
 
@@ -366,25 +361,29 @@ public class Visualizer extends PApplet {
 
         if(song != null)
         {
-            if (key ==' ')//space
+            if (key ==' ')// spacebar play/pause
             {
                 togglePlay();
             }
-            if (key == CODED && keyCode == LEFT)//left arrow
+            if (key == CODED && keyCode == LEFT)// left arrow
             {
                 song.rewind();// rewind to start of song
             }
-            if (key == CODED && keyCode == RIGHT)//right arrow 
+            if (key == CODED && keyCode == RIGHT)// right arrow 
             {
-                song.skip(1000);//fast forward
+                song.skip(1000);// fast forward
             }
-            if(key == 'f')
+            if(key == 'f')// fullscreen
             {
                 background.toggleFullscreen();
             }
-            if(key == 's')
+            if(key == 's')// solid/boxes
             {
                 background.toggleSolid();
+            }
+            if(key == 't')// spiderman/visualizer
+            {
+                toggleBackground();
             }
         }
 
@@ -408,6 +407,11 @@ public class Visualizer extends PApplet {
         {
             vs.isClicked();
         }
+    }
+
+    public void toggleBackground()
+    {
+        toggle = !toggle;
     }
 
     /**
