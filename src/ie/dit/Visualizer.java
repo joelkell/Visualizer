@@ -63,6 +63,7 @@ public class Visualizer extends PApplet {
         buttons.add(new TimeSlider(this, 360, height - 50, width - 100, height - 50, 20));// time slider
         buttons.add(new Fullscreen(this, 22, 120, 60));// Fullscreen Button
         buttons.add(new VisualizerButton(this, 22, 200, 60));// Visualizer type Button
+        buttons.add(new VisualizerStyleButton(this, 22, 280, 60));// Visualizer Style Button
 
         AA = new AlbumArt(this);
         GC = new GetColours();

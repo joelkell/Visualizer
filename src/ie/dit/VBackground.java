@@ -35,8 +35,8 @@ public class VBackground extends UIElement
         for(int i = 0; i < visualizer.numColours; i++)
         {
             float y2;
-            float x2 = i % 5;
-            if(i < 5)
+            float x2 = i % (visualizer.numColours / 2);
+            if(i < (visualizer.numColours / 2))
             {
                 y2 = 0;
             }

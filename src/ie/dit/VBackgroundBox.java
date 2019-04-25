@@ -38,14 +38,14 @@ public class VBackgroundBox extends UIElement
     public void update()
     {
         //Updates fill colour
-        r = Visualizer.lerp(r, (float)visualizer.colours[(index + 3)%30], 0.05f);
-        g = Visualizer.lerp(g, (float)visualizer.colours[(index + 4)%30], 0.05f);
-        b = Visualizer.lerp(b, (float)visualizer.colours[(index + 5)%30], 0.05f);
+        r = Visualizer.lerp(r, (float)visualizer.colours[(index + 3) % visualizer.colours.length], 0.05f);
+        g = Visualizer.lerp(g, (float)visualizer.colours[(index + 4) % visualizer.colours.length], 0.05f);
+        b = Visualizer.lerp(b, (float)visualizer.colours[(index + 5) % visualizer.colours.length], 0.05f);
         if(Math.round(r) == visualizer.colours[(index + 3) % visualizer.colours.length] && Math.round(g) == visualizer.colours[(index + 4) % visualizer.colours.length] && Math.round(b) == visualizer.colours[(index + 5) % visualizer.colours.length])
         {
             index += 3;
         } 
-        if(index == 30)
+        if(index == visualizer.colours.length)
         {
             index = 0;
         }      
