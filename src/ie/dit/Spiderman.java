@@ -1,6 +1,6 @@
 /**
- * 
- */
+  * Draws A gif of dancing spiderman to the screen frame by frame
+  */
 
 package ie.dit;
 
@@ -21,7 +21,7 @@ public class Spiderman extends UIElement
         spiderman[2] = visualizer.loadImage("frame_000_delay-0.1s.png");
         j = 1;
         k = 0;
-        for(int i = 3; i < 549; i++)
+        for(int i = 3; i < 549; i++)//Load Frames into array
         {
             spiderman[i] = visualizer.loadImage("frame_" + String.format("%03d" , j) + "_delay-0.07s.png");
             k++;
@@ -33,14 +33,14 @@ public class Spiderman extends UIElement
         }
     }
 
-    //draw  to screen
+    //draws Image to screen
     public void render()
     {
         visualizer.imageMode(Visualizer.CENTER);
         visualizer.image(spiderman[index],pos.x,pos.y,visualizer.width/2, visualizer.height/2);
     }
 
-    //
+    //Moves to next frame
     public void update()
     {
         index++;

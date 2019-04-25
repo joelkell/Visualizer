@@ -7,7 +7,7 @@ public abstract class UIElement
     protected PVector pos;
     protected Visualizer visualizer;
 
-    public UIElement(Visualizer visualizer, float x, float y)
+    public UIElement(Visualizer visualizer, float x, float y)//Default Constructor
     {
         this.visualizer = visualizer;
         pos = new PVector(x, y);

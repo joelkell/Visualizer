@@ -9,20 +9,23 @@ package ie.dit;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
+
 public class FileChooser extends JFrame { 
     
-    private String path; 
+    private static final long serialVersionUID = 1L;
+
+	private String path; 
 	FileChooser() 
 	{ 
 	} 
 
-    //selects file from somewhere on computer and stroees in path variable
+    //selects file from somewhere on computer and stores in path variable
 	public void chooseFile() 
 	{ 
         JFileChooser fileWindow = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
         fileWindow.setAcceptAllFileFilterUsed(false); //Does not allow all files to be selected 
-        fileWindow.setDialogTitle("Select a .mp3 file"); //String for Window Title
+        fileWindow.setDialogTitle("Select an .mp3 file"); //String for Window Title
         FileNameExtensionFilter restrict = new FileNameExtensionFilter("Only .mp3 files", "mp3"); //Allow user to only select mp3 files
         fileWindow.addChoosableFileFilter(restrict); 
 
@@ -47,5 +50,4 @@ public class FileChooser extends JFrame {
         this.path = path;
     }
 
-} 
-
+}

@@ -1,5 +1,5 @@
 /**
-  * 
+  * Fast Fourier Transform of song which returns current average amplitude of different bands
   */
 
 package ie.dit;

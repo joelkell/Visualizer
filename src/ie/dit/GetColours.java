@@ -57,7 +57,7 @@ public class GetColours
         //iterate through every pixel
         for(int i = 0; i < image.pixels.length; i++)
         {
-            //converts each pixel to hex value and parse into rgb ints
+            //converts each pixel to hex value and then parse into rgb ints
             String hexPixel = Long.toHexString(256*256*256 - Math.abs(image.pixels[i]));//get Hex value of each pixel
             while(hexPixel.length() < 6)//ensure string length is 6 long
             {

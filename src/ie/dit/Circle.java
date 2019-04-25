@@ -111,6 +111,7 @@ public class Circle extends UIElement
         {
             visualizer.uiElements.remove(this);
         }
+        
         //wrap circles vertically
         if(vb.getFullscreen())
         {

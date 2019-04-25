@@ -1,5 +1,5 @@
 /**
-  * 
+  * Boxes whih contain most common colours and shift colours on background of visualizer
   */
 
 package ie.dit;
@@ -20,7 +20,7 @@ public class VBackgroundBox extends UIElement
         b = visualizer.colours[(position * 3) + 2];
     }
 
-    //draw  to screen
+    //draw box to screen
     public void render()
     {
         vertGap = (visualizer.height - (2* vb.getGap()))/2;

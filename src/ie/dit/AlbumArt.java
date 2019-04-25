@@ -1,6 +1,5 @@
 /**
   * Retrieves Album Artwork from selected song
-  * Analyzes artwork for most common colours
   */
 
 package ie.dit;
@@ -46,7 +45,7 @@ public class AlbumArt
         {
             ID3v2 id3v2Tag = mp3file.getId3v2Tag();
             byte[] imageData = id3v2Tag.getAlbumImage();//retrieves album art and places in byte array
-            if(imageData == null)//if there is no artwork return default artwork
+            if(imageData == null)//if there is no artwork return null
             {
                 return null;
             }

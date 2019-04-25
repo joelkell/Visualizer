@@ -1,6 +1,6 @@
 /**
- * Button which toggles if visualizer if fullscreen
- */
+  * Button which toggles if visualizer if fullscreen
+  */
 
 package ie.dit;
 public class Fullscreen extends Button

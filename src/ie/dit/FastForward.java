@@ -1,8 +1,9 @@
 /**
- * Button which allows user to fast forward song being played
- */
+  * Button which allows user to fast forward song being played
+  */
 
 package ie.dit;
+
 public class FastForward extends Button
 {
     public FastForward(Visualizer visualizer, float x, float y, float size)//constructor

@@ -6,7 +6,7 @@ public abstract class Button extends UIElement
     protected float length;
     protected float height;
     protected boolean clicked;
-    public Button(Visualizer visualizer, float x, float y, float size)
+    public Button(Visualizer visualizer, float x, float y, float size)//Default Constructor
     {
         super(visualizer, x, y);
         this.size = size;

@@ -1,6 +1,6 @@
 /**
- * Button which toggles if visualizer is Visualizer or Spiderman
- */
+  * Button which toggles if visualizer is Visualizer or Spiderman
+  */
 
 package ie.dit;
 

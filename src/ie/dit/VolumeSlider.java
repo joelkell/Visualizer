@@ -1,6 +1,6 @@
 /**
- * Slider which allows user to change volume
- */
+  * Slider which allows user to change volume
+  */
 
 package ie.dit;
 public class VolumeSlider extends Slider

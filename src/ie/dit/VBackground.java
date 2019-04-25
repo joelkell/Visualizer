@@ -1,5 +1,5 @@
 /**
-  * 
+  * Displays Background of Visualizer to Screen
   */
 
 package ie.dit;
@@ -11,7 +11,7 @@ public class VBackground extends UIElement
     private float r, g, b;
     private int index, index2, index3;
     private int[] colours;
-    private float gap = 100;
+    private float gap = 110;
     private float timePassed;
     private boolean fullscreen;
     private boolean solid;
@@ -32,7 +32,7 @@ public class VBackground extends UIElement
         fullscreen = false;
         solid = false;
 
-        for(int i = 0; i < visualizer.numColours; i++)
+        for(int i = 0; i < visualizer.numColours; i++)//Arraylist which contains boxes
         {
             float y2;
             float x2 = i % (visualizer.numColours / 2);
@@ -48,17 +48,17 @@ public class VBackground extends UIElement
         }
     }
 
-    //draw  to screen
+    //draw Background to screen
     public void render()
     {
         visualizer.stroke(0);//black border
         visualizer.strokeWeight(4);
-        if(solid == true)
+        if(solid == true)//If solid background is selected
         {
             visualizer.fill(r,g,b);//fill colour
             visualizer.rect(gap,gap,visualizer.width - (2 * gap),visualizer.height - (2 * gap));
         }
-        else
+        else//Background with boxes
         {
             visualizer.fill(255);//white background
             visualizer.rect(gap,gap,visualizer.width - (2 * gap),visualizer.height - (2 * gap));
@@ -95,7 +95,7 @@ public class VBackground extends UIElement
             float radius = visualizer.circleSizes[index3%4];
             int type = index3%4;
             float y = visualizer.random(gap, visualizer.height - gap - (2 * radius));
-            for(int j = visualizer.uiElements.size() - 4; j < visualizer.uiElements.size(); j++)
+            for(int j = visualizer.uiElements.size() - 4; j < visualizer.uiElements.size(); j++)//Ensures position isn't on same y axis as previous 4 circles
             {
                 Circle ui = (Circle) visualizer.uiElements.get(j);
                 if(y < ui.pos.y + (2 * radius) && y > ui.pos.y - (2 * radius))
@@ -115,12 +115,11 @@ public class VBackground extends UIElement
         }
     }
 
-    public void toggleFullscreen()
+    public void toggleFullscreen()//toggles fullscreen
     {
         fullscreen = !fullscreen;
 
-        //toggles fullscreen
-        if(fullscreen == false)
+        if(fullscreen == false)//Remove fullscreen
         {
             gap = 100;
 
@@ -132,7 +131,7 @@ public class VBackground extends UIElement
                 ui.pos.y = Visualizer.map(ui.pos.y, 0, visualizer.height - (2 * ui.getRadius()), gap, visualizer.height - gap - (2 * ui.getRadius()));
             }
         }
-        else
+        else//Set to fullscreen
         {
             //move circles out proportionately
             for(int i = 0; i < visualizer.uiElements.size(); i++)

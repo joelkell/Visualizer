@@ -1,6 +1,6 @@
 /**
- * Slider which allows user to change position of song
- */
+  * Slider which displays position of song
+  */
 
 package ie.dit;
 public class TimeSlider extends Slider
@@ -26,7 +26,7 @@ public class TimeSlider extends Slider
         visualizer.ellipse(buttonX - size/2, pos.y - size/2, size, size);
     }
 
-    //Update circle and volume
+    //Update circle position
     public void update()
     {
         if(visualizer.song != null)

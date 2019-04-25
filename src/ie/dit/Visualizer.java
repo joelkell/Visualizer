@@ -38,10 +38,10 @@ public class Visualizer extends PApplet {
     public void settings() 
     {
         fileChosen = false;// no song chosen at launch
-        size(1228, 692);
+        // size(1228, 692); //Smaller Screen size
+        fullScreen();
+        size(displayWidth, displayHeight);
         smooth(8);
-        // fullScreen();
-        // size(displayWidth, displayHeight);
         pixelDensity(displayDensity());
 
         minim = new Minim(this);
@@ -61,9 +61,9 @@ public class Visualizer extends PApplet {
         vs = new VolumeSlider(this, width - 50, 100, width - 50, 370, 20);// volume slider
         buttons.add(vs);
         buttons.add(new TimeSlider(this, 360, height - 50, width - 100, height - 50, 20));// time slider
-        buttons.add(new Fullscreen(this, 22, 120, 60));// Fullscreen Button
-        buttons.add(new VisualizerButton(this, 22, 200, 60));// Visualizer type Button
-        buttons.add(new VisualizerStyleButton(this, 22, 280, 60));// Visualizer Style Button
+        buttons.add(new Fullscreen(this, 24, 120, 60));// Fullscreen Button
+        buttons.add(new VisualizerButton(this, 24, 220, 60));// Visualizer type Button
+        buttons.add(new VisualizerStyleButton(this, 24, 320, 60));// Visualizer Style Button
 
         AA = new AlbumArt(this);
         GC = new GetColours();
@@ -76,6 +76,7 @@ public class Visualizer extends PApplet {
 
         frameRate(60);
     }
+
 
     //open JFileChooser and select song
     public void selectSong()
@@ -103,7 +104,7 @@ public class Visualizer extends PApplet {
             fourier.fillLists();
             albumArt = AA.getAlbumArt(path);//get album art
 
-            //Load default colours and album if no album art
+            //Load default colours and album art if no album art
             if(albumArt == null)
             {
                 albumArt = loadImage("default-artwork.png");
@@ -114,17 +115,17 @@ public class Visualizer extends PApplet {
                 colours = GC.commonColour(albumArt, numColours);//load most common colours into array
             }
 
-            albumArt.resize(80, 0);
+            albumArt.resize(80, 0);//resize image to 80 * 80
             albumArt.loadPixels();
             background = new VBackground(this, 0, 0, colours);
 
-            //Add uiElements to list
+            //Add circles to list
             for(int i = 0; i < numColours; i++)
             {
                 float radius = circleSizes[i%4];
                 int type = i%4;
-                float x = random(background.getGap(), width - background.getGap() - (2 * radius));
-                float y = random(background.getGap(), height - background.getGap() - (2 * radius));
+                float x = random(background.getGap(), width - background.getGap() - (2 * radius));//random x value
+                float y = random(background.getGap(), height - background.getGap() - (2 * radius));//random y value
 
                 //Make sure circles don't overlap
                 if(uiElements.size() > 0)
@@ -154,58 +155,6 @@ public class Visualizer extends PApplet {
         }
     }
 
-    //remove all uiElements from list
-    public void uiRemove()
-    {
-        for(int i = uiElements.size()-1; i >= 0; i--)
-        {
-            uiElements.remove(i);
-        }
-    }
-
-    //switch between playing and paused
-    public void togglePlay()
-    {
-        if(song.isPlaying())
-        {
-            song.pause();
-            paused = true;
-        }
-        else
-        {
-            song.play();
-            paused = false;
-        }
-    }
-
-    //increase volume of song
-    public void increaseVolume()
-    {
-        volume++;
-        if(volume > 4)
-        {
-            volume = 4;
-        }
-        if(song != null)
-        {
-            song.setGain(volume);
-        }
-    }
-
-    //decrease volume of song
-    public void decreaseVolume()
-    {
-        volume--;
-        if(volume < -80)
-        {
-            volume = -80;
-        }
-        if(song != null)
-        {
-            song.setGain(volume);
-        }
-    }
-
     private String timeRemaining;
     private String timeElapsed;
     private String totalTime;
@@ -219,7 +168,7 @@ public class Visualizer extends PApplet {
         return strTime;
     }
 
-    public float timeDelta;
+    public float timeDelta;//time passed on each frame
     private float last;
     int i = 0;
     public void draw()
@@ -265,7 +214,7 @@ public class Visualizer extends PApplet {
             text(timeRemaining, width-90, height - 50);
 
             String title = meta.title();
-            if(title == "")//sets title to unkown if song title is unknown
+            if(title == "")//sets title to unknown if song title is unknown
             {
                 title = "Unknown";
             }
@@ -274,7 +223,7 @@ public class Visualizer extends PApplet {
                 title = title.substring(0,61);
             }
             String author = meta.author();
-            if(author == "")//sets author to unkown if song author is unknown
+            if(author == "")//sets author to unknown if song author is unknown
             {
                 author = "Unknown";
             }
@@ -283,7 +232,7 @@ public class Visualizer extends PApplet {
                 author = author.substring(0,61);
             }
             String album = meta.album();
-            if(album == "")//sets album to unkown if song album is unknown
+            if(album == "")//sets album to unknown if song album is unknown
             {
                 album = "Unknown";
             }
@@ -341,25 +290,25 @@ public class Visualizer extends PApplet {
     public void keyPressed()
     {
         
-        if (key =='p')
+        if (key =='p')// P key
         {
-            selectSong();
+            selectSong();// Select Song
         }
         if(key == CODED && keyCode == UP)// up arrow
         {
-            increaseVolume();
+            increaseVolume();// Increase Volume
         }
 
         if(key == CODED && keyCode == DOWN)// down arrow
         {
-            decreaseVolume();
+            decreaseVolume();// Decrease Volume
         }
 
         if(song != null)
         {
             if (key ==' ')// spacebar play/pause
             {
-                togglePlay();
+                togglePlay();// Toggle Play or Pause
             }
             if (key == CODED && keyCode == LEFT)// left arrow
             {
@@ -369,17 +318,17 @@ public class Visualizer extends PApplet {
             {
                 song.skip(1000);// fast forward
             }
-            if(key == 'f')// fullscreen
+            if(key == 'f')// F Key
             {
-                background.toggleFullscreen();
+                background.toggleFullscreen();// fullscreen
             }
-            if(key == 's')// solid/boxes
+            if(key == 's')// S Key
             {
-                background.toggleSolid();
+                background.toggleSolid();// solid/boxes
             }
-            if(key == 't')// spiderman/visualizer
+            if(key == 't')// T Key
             {
-                toggleBackground();
+                toggleBackground();// spiderman/visualizer
             }
         }
 
@@ -392,7 +341,7 @@ public class Visualizer extends PApplet {
             Button b = buttons.get(i);
             if(mouseX >= b.pos.x && mouseX <= b.pos.x + b.length && mouseY >= b.pos.y && mouseY <= b.pos.y + b.height )
             {
-                b.isClicked();
+                b.isClicked();//Set button to clicked
             }
         }
     }
@@ -401,11 +350,63 @@ public class Visualizer extends PApplet {
     {
         if((mouseX >= vs.pos.x - vs.size/2 && mouseX <= vs.pos.x + vs.size/2 && mouseY >= vs.pos.y && mouseY <= vs.pos2.y) && mousePressed)
         {
-            vs.isClicked();
+            vs.isClicked();//Sets slider to clicked
         }
     }
 
-    public void toggleBackground()
+    //remove all uiElements from list
+    public void uiRemove()
+    {
+        for(int i = uiElements.size()-1; i >= 0; i--)
+        {
+            uiElements.remove(i);
+        }
+    }
+
+    //switch between playing and paused
+    public void togglePlay()
+    {
+        if(song.isPlaying())
+        {
+            song.pause();
+            paused = true;
+        }
+        else
+        {
+            song.play();
+            paused = false;
+        }
+    }
+
+    //increase volume of song
+    public void increaseVolume()
+    {
+        volume++;
+        if(volume > 4)
+        {
+            volume = 4;//max volume
+        }
+        if(song != null)
+        {
+            song.setGain(volume);
+        }
+    }
+
+    //decrease volume of song
+    public void decreaseVolume()
+    {
+        volume--;
+        if(volume < -80)
+        {
+            volume = -80;//min volume
+        }
+        if(song != null)
+        {
+            song.setGain(volume);
+        }
+    }
+
+    public void toggleBackground()//Toggle Visualizer/Spiderman
     {
         toggle = !toggle;
     }
