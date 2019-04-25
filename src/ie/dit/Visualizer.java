@@ -4,7 +4,6 @@
 package ie.dit;
 
 import java.util.ArrayList;
-
 import ddf.minim.AudioMetaData;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
@@ -41,10 +40,10 @@ public class Visualizer extends PApplet {
     public void settings() 
     {
         fileChosen = false;// no song chosen at launch
-        //size(1228, 692);
+        size(1228, 692);
         smooth(8);
-        fullScreen();
-        size(displayWidth, displayHeight);
+        // fullScreen();
+        // size(displayWidth, displayHeight);
         pixelDensity(displayDensity());
 
         minim = new Minim(this);
