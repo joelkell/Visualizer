@@ -1,5 +1,5 @@
 /**
-  * Button which toggles if visualizer is Visualizer or Spiderman
+  * Button which toggles if Visualizer is solid or multiple boxes of colours
   */
 
 package ie.dit;
