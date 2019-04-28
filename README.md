@@ -11,6 +11,28 @@ Variables, loops, methods, arrays, lists, objects, inheritance, polymorphism, tr
 
 # Instructions
 
+## Compilation and Running
+- Run the compile.sh file
+- Run the run.sh file
+
+## Using the visualizer
+* The visualizer can be used by selecting any mp3 file from our pc.
+* First click the choose song button or press the *'P'* key on your keyboard. This will bring up the file chooser nad allow you to select a song from your pc
+* After the song has been chosen you can enjoy the visualizer and it's various modes.
+* The following hotkeys and buttons can be used to perform various functions
+    * *SPACE* or the PLAY/PAUSE Button will play or pause the music
+	* *LEFT* or the REWIND Button will rewind the song to the beginning
+	* *RIGHT* or the FAST FORWARD Button will fast forward the song
+	* *UP* and *DOWN* arrow keys, or dragging the right hand slider will increase or decrease the volume respectively
+	* *'P'* Or the Choose Song button will open a menu to choose a new mp3 file
+	* *'F'* or the top button on the left hand side of the screen will change the visualiser to fullscreen mode
+	* *'T'* or the middle button on the left hand side will change the visualizer type between the colour pallete of the album artwork(if available) and a dancing spiderman
+	* *'S'* or the botton most button on the left hand side will change the visualizer style between a solid background and a boxed background when the visualizer is in the colour pallete mode.
+	* *ESC* Key can be used to exit the program
+
+
+# How it works
+
 * Main.java
     * The main class for the program
 	* Calls the Visualizer class
@@ -135,31 +157,10 @@ Variables, loops, methods, arrays, lists, objects, inheritance, polymorphism, tr
     * Extends UIElement
     * Draws a box to the screen which changes colour to colours in the most common colour array in the Visualizer class
 
-## Compilation and Running
-- Run the compile.sh file
-- Run the run.sh file
-
-## Using the visualizer
-* The visualizer can be used by selecting any mp3 file from our pc.
-* First click the choose song button or press the *'P'* key on your keyboard. This will bring up the file chooser nad allow you to select a song from your pc
-* After the song has been chosen you can enjoy the visualizer and it's various modes.
-* The following hotkeys and buttons can be used to perform various functions
-    * *SPACE* or the PLAY/PAUSE Button will play or pause the music
-	* *LEFT* or the REWIND Button will rewind the song to the beginning
-	* *RIGHT* or the FAST FORWARD Button will fast forward the song
-	* *UP* and *DOWN* arrow keys, or dragging the right hand slider will increase or decrease the volume respectively
-	* *'P'* Or the Choose Song button will open a menu to choose a new mp3 file
-	* *'F'* or the top button on the left hand side of the screen will change the visualiser to fullscreen mode
-	* *'T'* or the middle button on the left hand side will change the visualizer type between the colour pallete of the album artwork(if available) and a dancing spiderman
-	* *'S'* or the botton most button on the left hand side will change the visualizer style between a solid background and a boxed background when the visualizer is in the colour pallete mode.
-	* *ESC* Key can be used to exit the program
-
-
-# How it works
-
 # What I am most proud of in the assignment
 
 The thing that I am most proud of in this assignment is the algorithm I created which analyzes an image and then gets the most common colours from the image. Using this in conjunction with the visualizer and the file chooser to analyze songs to get the colour pallete from their album artwork turned out really well and is exactly how I hoped it look like. Whenever I listen to music, the colours I envision in my mind are generally those of the album artwork.
+
 If I had had more time to work on the algorithm I would have improved it to make it more accurate and efficient, but regardless I am happy with it's functionality.
 
 # Youtube Link and Screenshots
