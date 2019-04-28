@@ -16,7 +16,7 @@ Variables, loops, methods, arrays, lists, objects, inheritance, polymorphism, tr
 - Run the run.sh file
 
 ## Using the visualizer
-* The visualizer can be used by selecting any mp3 file from our pc.
+* The visualizer can be used by selecting any mp3 file from your pc.
 * First click the choose song button or press the *'P'* key on your keyboard. This will bring up the file chooser and allow you to select a song from your pc
 * After the song has been chosen you can enjoy the visualizer and it's various modes.
 * The following hotkeys and buttons can be used to perform various functions
