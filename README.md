@@ -27,7 +27,7 @@ Variables, loops, methods, arrays, lists, objects, inheritance, polymorphism, tr
 	* *'P'* or the Choose Song button will open a menu to choose a new mp3 file
 	* *'F'* or the top button on the left hand side of the screen will change the visualiser to fullscreen mode
 	* *'T'* or the middle button on the left hand side will change the visualizer type between the colour pallete of the album artwork (if available) and a dancing spiderman
-	* *'S'* or the botton most button on the left hand side will change the visualizer style between a solid background and a boxed background when the visualizer is in the colour pallete mode.
+	* *'S'* or the bottom most button on the left hand side will change the visualizer style between a solid background and a boxed background when the visualizer is in the colour pallete mode.
 	* *ESC* Key can be used to exit the program
 
 
