@@ -4,6 +4,8 @@ Name: Joel Kell
 
 Student Number: C17431012
 
+Assignment Grade: 95%
+
 # Description of the assignment
 
 This assignment was to create an audio visualizer using the Java Minim and Processing libraries. 
